@@ -1,4 +1,4 @@
-# NAVIgit (WINGS_PROMPTERS)
+﻿# NAVIgit (WINGS_PROMPTERS)
 
 AI-powered GitHub repository intelligence with:
 
@@ -162,3 +162,4 @@ Modes:
 ## License
 
 MIT (or project team license choice).
+
