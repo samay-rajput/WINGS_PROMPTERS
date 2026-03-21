@@ -1,0 +1,386 @@
+{
+  "m1_folder_explanation": {
+    "architecture_style": "MVC (Model-View-Controller)",
+    "folders": {
+      ".editorconfig": "<Purpose>: Configuration file for editor settings.",
+      ".eslintignore": "<Purpose>: List of files or directories to be ignored by ESLint linters.",
+      ".eslintrc.yml": "<Purpose>: YAML configuration file specifying rules and options for ESLint.",
+      ".gitignore": "<Purpose>: File listing patterns that should not be tracked in Git repositories.",
+      ".npmrc": "<Purpose>: Configuration file used by npm to manage package installations, dependencies, etc.",
+      "History.md": "<Purpose>: Markdown formatted history or changelog of the repository>",
+      "LICENSE": "<Purpose>: License agreement for using and distributing this software",
+      "Readme.md": "<Purpose>: General information about the project, typically found at the root level in a markdown file>"
+    }
+  },
+  "m2_entry_analysis": {
+    "entry_file": "index.js",
+    "execution_flow": [
+      "Step 1: The Node server starts by requiring the 'express' module.",
+      "Step 2: It then requires its own internal Express library, which is bundled within it for convenience and efficiency.",
+      "Step 3: As a result of these two require statements, an instance of express.js (the application object) becomes available globally through the 'module.exports' statement."
+    ]
+  },
+  "m3_nodes": [
+    {
+      "id": "examples/route-separation/user.js",
+      "label": "user.js",
+      "layer": "route"
+    },
+    {
+      "id": "examples/view-constructor/github-view.js",
+      "label": "github-view.js",
+      "layer": "ui"
+    },
+    {
+      "id": "examples/route-map/index.js",
+      "label": "index.js",
+      "layer": "route"
+    },
+    {
+      "id": "lib/utils.js",
+      "label": "utils.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "lib/response.js",
+      "label": "response.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/session/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/online/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/mvc/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/view-locals/index.js",
+      "label": "index.js",
+      "layer": "ui"
+    },
+    {
+      "id": "examples/mvc/db.js",
+      "label": "db.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/view-locals/user.js",
+      "label": "user.js",
+      "layer": "ui"
+    },
+    {
+      "id": "examples/search/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/error-pages/index.js",
+      "label": "index.js",
+      "layer": "ui"
+    },
+    {
+      "id": "examples/route-middleware/index.js",
+      "label": "index.js",
+      "layer": "route"
+    },
+    {
+      "id": "examples/multi-router/controllers/api_v1.js",
+      "label": "api_v1.js",
+      "layer": "route"
+    },
+    {
+      "id": "examples/content-negotiation/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/static-files/public/js/app.js",
+      "label": "app.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/mvc/controllers/pet/index.js",
+      "label": "index.js",
+      "layer": "controller"
+    },
+    {
+      "id": "examples/cookie-sessions/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "lib/application.js",
+      "label": "application.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/markdown/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/mvc/lib/boot.js",
+      "label": "boot.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "lib/request.js",
+      "label": "request.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "lib/express.js",
+      "label": "express.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/session/redis.js",
+      "label": "redis.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/vhost/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/route-separation/site.js",
+      "label": "site.js",
+      "layer": "route"
+    },
+    {
+      "id": "lib/view.js",
+      "label": "view.js",
+      "layer": "ui"
+    },
+    {
+      "id": "examples/mvc/controllers/user/index.js",
+      "label": "index.js",
+      "layer": "controller"
+    },
+    {
+      "id": "examples/static-files/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/search/public/client.js",
+      "label": "client.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/resource/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/route-separation/post.js",
+      "label": "post.js",
+      "layer": "route"
+    },
+    {
+      "id": "examples/auth/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/multi-router/controllers/api_v2.js",
+      "label": "api_v2.js",
+      "layer": "route"
+    },
+    {
+      "id": "examples/params/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/content-negotiation/db.js",
+      "label": "db.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/hello-world/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/error/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/content-negotiation/users.js",
+      "label": "users.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/mvc/controllers/user-pet/index.js",
+      "label": "index.js",
+      "layer": "controller"
+    },
+    {
+      "id": "examples/ejs/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/route-separation/index.js",
+      "label": "index.js",
+      "layer": "route"
+    },
+    {
+      "id": "examples/multi-router/index.js",
+      "label": "index.js",
+      "layer": "route"
+    },
+    {
+      "id": "examples/view-constructor/index.js",
+      "label": "index.js",
+      "layer": "ui"
+    },
+    {
+      "id": "examples/web-service/index.js",
+      "label": "index.js",
+      "layer": "service"
+    },
+    {
+      "id": "examples/downloads/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/mvc/controllers/main/index.js",
+      "label": "index.js",
+      "layer": "controller"
+    },
+    {
+      "id": "examples/cookies/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    }
+  ],
+  "m3_edges": [
+    {
+      "source": "examples/route-map/index.js",
+      "target": "lib/express.js"
+    },
+    {
+      "source": "lib/response.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/response.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/response.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "index.js",
+      "target": "lib/express.js"
+    },
+    {
+      "source": "examples/mvc/index.js",
+      "target": "examples/mvc/lib/boot.js"
+    },
+    {
+      "source": "examples/view-locals/index.js",
+      "target": "examples/view-locals/user.js"
+    },
+    {
+      "source": "examples/route-middleware/index.js",
+      "target": "lib/express.js"
+    },
+    {
+      "source": "examples/content-negotiation/index.js",
+      "target": "examples/content-negotiation/db.js"
+    },
+    {
+      "source": "examples/mvc/controllers/pet/index.js",
+      "target": "examples/mvc/db.js"
+    },
+    {
+      "source": "lib/application.js",
+      "target": "lib/view.js"
+    },
+    {
+      "source": "lib/application.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/application.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/application.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/application.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/express.js",
+      "target": "lib/application.js"
+    },
+    {
+      "source": "lib/express.js",
+      "target": "lib/request.js"
+    },
+    {
+      "source": "lib/express.js",
+      "target": "lib/response.js"
+    },
+    {
+      "source": "examples/mvc/controllers/user/index.js",
+      "target": "examples/mvc/db.js"
+    },
+    {
+      "source": "examples/content-negotiation/users.js",
+      "target": "examples/content-negotiation/db.js"
+    },
+    {
+      "source": "examples/mvc/controllers/user-pet/index.js",
+      "target": "examples/mvc/db.js"
+    },
+    {
+      "source": "examples/route-separation/index.js",
+      "target": "examples/route-separation/site.js"
+    },
+    {
+      "source": "examples/route-separation/index.js",
+      "target": "examples/route-separation/post.js"
+    },
+    {
+      "source": "examples/route-separation/index.js",
+      "target": "examples/route-separation/user.js"
+    },
+    {
+      "source": "examples/multi-router/index.js",
+      "target": "examples/multi-router/controllers/api_v1.js"
+    },
+    {
+      "source": "examples/multi-router/index.js",
+      "target": "examples/multi-router/controllers/api_v2.js"
+    },
+    {
+      "source": "examples/view-constructor/index.js",
+      "target": "examples/view-constructor/github-view.js"
+    }
+  ],
+  "m3_architecture_summary": "This project follows layered backend architecture with route, controller, and/or service patterns."
+}

@@ -1,0 +1,13 @@
+{
+  "executionEnvironments": [
+    {
+      "root": ".",
+      "extraPaths": ["."]
+    }
+  ],
+  "reportMissingImports": "warning",
+  "reportMissingModuleSource": "none",
+  "pythonVersion": "3.12",
+  "venvPath": ".",
+  "typeCheckingMode": "basic"
+}

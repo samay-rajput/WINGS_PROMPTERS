@@ -1,0 +1,727 @@
+prompt one: 
+ok fine understand this.
+I have one problem statement now i need to start the project on it
+first we will need to make sure the problem and understand the problem completely 
+that how it goes and hot it works. 
+ok 
+what i have thought of the problem and the project: 
+1. for the ui there will be 4 main api's 
+2. one is for the input which is : the url from github. 
+3. other three will be for the 3 different outputs of the given problem statement . 
+and then the architecture is also there which i have decided till now. 
+and i think it is good for now (we can improve it) whatever you can say: 
+this: 
+User
+↓
+Frontend (Input UI – GitHub URL)
+↓
+Backend API
+↓
+Repository Fetch Module
+↓
+Code Parser / Analyzer
+↓
+AI Processing Module
+↓
+Structured Output Generator
+↓
+Frontend (Dashboard Display)
+
+
+second prompt: 
+fine fine then we have the first output. that is the folder structure but now we need to understand that what each folder does and why it is made for ? also the second ouput of ours the we need to understand the entry point of the system and the third one is dependency mapping so let's go with the half first feature (the explaination of code repos) and the second (which is understanding the entry point) so how will we able to do it ? suggest or should we use the gemini api's directly ?
+
+prompt 3: 
+first i need to lock in the decisions of the first two features 
+like properly what we will do and what we will do. 
+
+then move on to the 3rd one and do the same. 
+
+
+and then:
+you will give me the best antigravity generated prompt. 
+
+i will provide it my credentials and we will make the backend. 
+and improve further. 
+
+so for the feature 1: 
+i have understood things mainly: 
+- we will get the file structure from the github rest api, (first the branch fetch then the main) , laterr 
+- we will extract the file structure 
+- and ask any llm for simple reasoning over that 
+- and will get the simple purpose of each major directory in plain english. 
+
+
+later for the feature 2: 
+- we will find the entry point: with the scoring algo
+- later we will extract the main needed entry and the supported files which will help us generate the execution flow. 
+- then again use the agent for that flow.  (this could be multi agent)
+- and showcase the output. 
+
+
+correct me if i am wrong some where 
+and also now tell me how we will do the 3rd feature and how we will continue with that. 
+
+for llm i am thinking of free gemini api key, and langchain as the framework in python,
+the api's we will expose using FastApi
+
+
+
+
+prompt 4: 
+
+i need to connect the backend now. 
+but it is with my other team member 
+I have copy pasted these files in his system 
+i need you to provide the proper summary for his ai assistant to connect this frontend completley and it must be understadable 
+
+
+
+prompt 5: 
+
+{
+  "m1_folder_explanation": {
+    "architecture_style": "Component-Based Architecture",
+    "folders": {
+      "<root>": "Project root containing configuration files for development, build, deployment, and documentation. Includes environment variables, CI/CD setup (CircleCI, Netlify), dependency management (Yarn, Renovate), code quality (ESLint), testing (Cypress), internationalization (Crowdin), and release automation (release-please).",
+      ".github": "Configuration for GitHub-specific features, including Dependabot for automated dependency updates, workflow definitions for GitHub Actions (CI/CD, automation), and documentation/instructions for contributors.",
+      ".husky": "Git hooks configuration, specifically 'pre-commit' hooks to run scripts or checks before a commit is finalized, ensuring code quality and standards.",
+      "data": "Stores and manages static, structured reference data for the application. Contains scripts to generate language-specific data files (e.g., categories, countries, labels, languages, origins) from raw sources.",
+      "public": "Contains static assets that are served directly by the web server, such as favicons, manifest files for Progressive Web Apps (PWAs), various image assets, and other media files.",
+      "src": "The main source code directory for the Vue.js Single Page Application. It encapsulates the application's logic, UI components, state management, routing, and utility functions.",
+      "src/assets": "Static assets like stylesheets, fonts, or other media specific to the application's styling.",
+      "src/components": "Reusable Vue.js UI components that can be composed to build views.",
+      "src/constants.js": "Defines application-wide constant values.",
+      "src/data": "Application-specific data files, potentially localized or configuration data, distinct from the raw reference data in the root 'data' folder.",
+      "src/i18n": "Internationalization (i18n) resources, including translation files and language configuration.",
+      "src/main.js": "The entry point for the Vue.js application, responsible for initializing the app, router, store, and plugins.",
+      "src/plugins": "Integrations with third-party libraries or framework-specific plugins (e.g., UI frameworks like Vuetify).",
+      "src/router.js": "Defines the application's routing logic, mapping URLs to specific views.",
+      "src/services": "Contains modules responsible for interacting with external APIs or performing specific business logic, abstracting data fetching and manipulation.",
+      "src/store.js": "Manages the application's global state using a state management pattern (e.g., Vuex or Pinia).",
+      "src/utils": "Provides general-purpose utility functions that can be used across different parts of the application.",
+      "src/views": "Top-level Vue.js components that represent distinct pages or screens of the application, often composed of smaller components.",
+      "tests": "Contains all testing-related files for the application.",
+      "tests/e2e": "End-to-end (E2E) tests, likely using Cypress, to simulate user interactions and verify application flows.",
+      "tests/fixtures": "Static data or mock responses used as input for tests, particularly E2E tests.",
+      "tests/support": "Helper files and custom commands for the testing framework (e.g., Cypress)."
+    }
+  },
+  "m2_entry_analysis": {
+    "entry_file": "vite.config.js",
+    "execution_flow": [
+      "Step 1: Vite CLI Invocation",
+      "A command such as `vite dev` or `vite build` is executed in the terminal, initiating the Vite development server or build process.",
+      "Step 2: Configuration File Loading",
+      "Vite's core engine starts up and locates the `vite.config.js` file in the project root, recognizing it as its primary configuration source.",
+      "Step 3: Node.js Module Execution",
+      "The `vite.config.js` file is executed as an ECMAScript Module (ESM) by Node.js (or the underlying runtime). Necessary modules like `node:url`, `node:path`, `vite`, `@vitejs/plugin-vue`, and `@intlify/unplugin-vue-i18n/vite` are imported. The `defineConfig` helper function from `vite` is called, which receives and validates the configuration object.",
+      "Step 4: Vue Plugin Initialization",
+      "The `@vitejs/plugin-vue` is initialized and registered. This plugin enables Vite to understand and process Vue Single-File Components (`.vue` files). It's configured to recognize `barcode-scanner` as a custom HTML element, preventing Vue from emitting warnings about unknown tags for this specific web component.",
+      "Step 5: Vue I18n Plugin Initialization",
+      "The `@intlify/unplugin-vue-i18n/vite` plugin is initialized and registered. This integrates Vue I18n into the Vite build process. It's configured with `runtimeOnly: false`, ensuring the full I18n compiler is available for template message compilation, and specifies that locale files should be resolved from the `./src/i18n/locales/**` directory.",
+      "Step 6: Path Aliases Configuration",
+      "The `resolve.alias` option is configured. An alias `@` is set up to point to the `src` directory of the project, allowing developers to use absolute imports like `import Component from '@/components/Component.vue'` instead of relative paths.",
+      "Step 7: Vite Internal Setup",
+      "With the configuration loaded, Vite proceeds to set up its internal module graph, apply the registered plugins for transformations, and prepare its development server or build pipeline based on the command invoked. This configuration dictates how Vite will process the actual application code (e.g., `src/main.js`)."
+    ]
+  },
+  "m3_nodes": [
+    {
+      "id": "src/utils/date.js",
+      "label": "date.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/router.js",
+      "label": "router.js",
+      "layer": "route"
+    },
+    {
+      "id": "src/i18n/localeManager.js",
+      "label": "localeManager.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/services/openPricesApi.js",
+      "label": "openPricesApi.js",
+      "layer": "service"
+    },
+    {
+      "id": "src/App.vue",
+      "label": "App.vue",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/utils/geo.js",
+      "label": "geo.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/utils/proof.js",
+      "label": "proof.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/i18n/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/plugins/vuetify.js",
+      "label": "vuetify.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/utils/barcode.js",
+      "label": "barcode.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "data/origins/generate_origins_json_per_language.py",
+      "label": "generate_origins_json_per_language.py",
+      "layer": "unknown"
+    },
+    {
+      "id": "data/labels/generate_labels_json_per_language.py",
+      "label": "generate_labels_json_per_language.py",
+      "layer": "unknown"
+    },
+    {
+      "id": "cypress.config.js",
+      "label": "cypress.config.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "vite.config.js",
+      "label": "vite.config.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/store.js",
+      "label": "store.js",
+      "layer": "store"
+    },
+    {
+      "id": "src/main.js",
+      "label": "main.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/utils/price.js",
+      "label": "price.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/services/openStreetMapApi.js",
+      "label": "openStreetMapApi.js",
+      "layer": "service"
+    },
+    {
+      "id": "src/constants.js",
+      "label": "constants.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/services/keycloakService.js",
+      "label": "keycloakService.js",
+      "layer": "service"
+    },
+    {
+      "id": "eslint.config.js",
+      "label": "eslint.config.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "data/categories/generate_categories_json_per_language.py",
+      "label": "generate_categories_json_per_language.py",
+      "layer": "unknown"
+    },
+    {
+      "id": "data/countries/generate_countries_json_per_language.py",
+      "label": "generate_countries_json_per_language.py",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/services/openFoodFactsApi.js",
+      "label": "openFoodFactsApi.js",
+      "layer": "service"
+    },
+    {
+      "id": "data/languages/generate_languages.py",
+      "label": "generate_languages.py",
+      "layer": "unknown"
+    },
+    {
+      "id": "src/utils.js",
+      "label": "utils.js",
+      "layer": "unknown"
+    }
+  ],
+  "m3_edges": [
+    {
+      "source": "src/utils/date.js",
+      "target": "src/constants.js"
+    },
+    {
+      "source": "src/router.js",
+      "target": "src/store.js"
+    },
+    {
+      "source": "src/router.js",
+      "target": "src/i18n/localeManager.js"
+    },
+    {
+      "source": "src/services/openPricesApi.js",
+      "target": "src/store.js"
+    },
+    {
+      "source": "src/services/openPricesApi.js",
+      "target": "src/constants.js"
+    },
+    {
+      "source": "src/utils/geo.js",
+      "target": "src/constants.js"
+    },
+    {
+      "source": "src/utils/proof.js",
+      "target": "src/constants.js"
+    },
+    {
+      "source": "src/utils/proof.js",
+      "target": "src/utils/barcode.js"
+    },
+    {
+      "source": "src/store.js",
+      "target": "src/constants.js"
+    },
+    {
+      "source": "src/store.js",
+      "target": "src/utils.js"
+    },
+    {
+      "source": "src/main.js",
+      "target": "src/App.vue"
+    },
+    {
+      "source": "src/main.js",
+      "target": "src/router.js"
+    },
+    {
+      "source": "src/main.js",
+      "target": "src/plugins/vuetify.js"
+    },
+    {
+      "source": "src/main.js",
+      "target": "src/i18n/index.js"
+    },
+    {
+      "source": "src/main.js",
+      "target": "src/i18n/localeManager.js"
+    },
+    {
+      "source": "src/utils/price.js",
+      "target": "src/constants.js"
+    },
+    {
+      "source": "src/services/openStreetMapApi.js",
+      "target": "src/constants.js"
+    },
+    {
+      "source": "src/services/openFoodFactsApi.js",
+      "target": "src/constants.js"
+    }
+  ],
+  "m3_architecture_summary": "This project follows layered backend architecture with route, controller, and/or service patterns."
+}
+
+
+this is the schema above. 
+
+
+and the attatched file is the frontend summary. 
+
+now i need you to design a great level prompt for the antigravity which will integrate these two. !
+I have put the backend files in backend folder and the above files of ui in the frontend folder which are on the both same level . 
+so please refine the perfect prompt
+
+
+
+
+
+prompt for changing the frontend: 
+
+okay now the main thing is.. 
+the code for now is not that good.
+
+but, that the first page is fine, i do not need any major changes in the first page just need to 
+1. make some of the fonts which contain: 
+✦ Folder Structure✦ Entry Point✦ Dependency Map
+
+1. and the team name which is: Team Prompters to make it bold so that it will be visible in the black background. 
+2. later the project name which is codebase intelligence i need to change it into: 'NAVIgit' which is the best name with NAVI in white and git in green as the theme is that. 
+3. later you can evaluate any changes if needed on your own. 
+
+
+then the second page: 
+
+which shows the m1, m2, m3 
+
+i do not like the page design 
+there are three blocks which are side by side, 
+but i need all of those divs to be vertically aligned 
+with a bit of more bigger font size. 
+
+later for the data schema which is returned from the backend is this which is given above. 
+so the m2 and  the m3 feature is kind of a block diagram or flow chart type 
+so i need a block diagram there in both the features 
+so there  will just be a preview in the second page of those. 
+and after clicking on any one of those cards then it will go on and open their own pages respectively
+The m3 already has one block diagram, but that is not good at all.. so we need to change those properly
+which then will show a detailed diagram
+
+
+so you understand the data schema 
+keep most of the format same expect the things i said to change 
+
+and  i am using codex for coding which is gpt-5.3-codex
+so give me the well curated prompt for that.. 
+and 
+also please do add any more changes if you think are compulsory.
+
+
+
+prompt for ai feature integration: 
+
+now we need to do the most critical task and for that i need your most of the support, 
+
+you realize that there is one ai chat feature which we have not used till yet. 
+
+but we need to use it. 
+and the main thing 
+my team member have implemented that feature not me, so i need to understand on that 
+
+the feature explaination is as following: 
+from him: 
+Here is the exact, perfectly structured prompt you can copy and paste and send to your frontend developer (or feed into an AI like Cursor/Windsurf) to instantly generate a beautiful UI for your system.
+Just copy the text inside the block below:
+System Role & Objective: You are an expert Frontend Developer and UI/UX designer. Your objective is to build a modern, sleek, and highly interactive ChatGPT-style web interface (using React, Next.js, or Vue) that connects cleanly to a fully functional Retrieval-Augmented Generation (RAG) backend API.
+Design Requirements:
+Build a dual-column layout or a prominent sidebar.
+Section 1 (Configuration/Indexing): An input field for pasting a GitHub Repository URL, and a massive "Index Repository" button. While indexing, show a clear loading spinner or progress animation.
+Section 2 (Chat Interface): A beautiful, scrollable chat window where users can talk to the codebase.
+Mode Selector: A dropdown, toggle switch, or set of 3 tabs that allows the user to select the analysis mode: B1 (Critical Files), B2 (Execution Flow), or B3 (Architecture Summary).
+Responses: Format the AI's markdown answers beautifully using a markdown renderer, and prominently display the "Source Files" cited by the AI as clickable badges or footnotes.
+Backend API Schema: The backend is a FastAPI server running locally at http://localhost:8020 with CORS enabled. It exposes exactly two endpoints:
+1. Indexing Endpoint (Triggered first)
+Method: POST /rag/index Purpose: Downloads and vector-embeds the provided GitHub repository into FAISS memory. JSON Request Body:
+json
+{
+  "github_url": "https://github.com/username/repository"
+}
+JSON Response (Success 200 OK):
+json
+{
+  "status": "success",
+  "files_fetched": 150,
+  "files_indexed": 45,
+  "chunks_indexed": 320,
+  "owner": "username",
+  "repo": "repository",
+  "branch": "main"
+}
+(Note: If the repository is massive, this endpoint may take a few minutes to respond. Please ensure the frontend HTTP client has a long timeout threshold and shows a persistent loading state.)
+2. Chat Endpoint (Triggered when the user sends a message)
+Method: POST /rag/chat Purpose: Queries the LLM (Groq/Llama3) against the embedded repository context. JSON Request Body:
+json
+{
+  "question": "Explain the database architecture.",
+  "mode": "B1"
+}
+Note: The 
+mode
+ string MUST be one of: "B1", "B2", or "B3".
+JSON Response (Success 200 OK):
+json
+{
+  "answer": "The database architecture relies on PostgreSQL connections established in config/db.py...",
+  "sources": [
+    "config/db.py",
+    "docker-compose.yml"
+  ]
+}
+Error Handling Requirements: If the user tries to send a message before successfully indexing a repository, the /rag/chat endpoint will return an HTTP 400 Bad Request with {"detail": "No repository has been indexed yet..."}. The frontend should gracefully display this error as an alert or toast notification and disable the chat input until an index is complete.
+Your friend (or their AI agent) will be able to plug this right in and instantly build a complete frontend that flawlessly connects to everything we just built!
+
+the above are the attatched files and the prompt from him 
+
+
+we need to integrate all of this into our main code now.
+for the /chat api
+which you know what is it and what it explains 
+
+i need these two pipelines to be totally independent of each other so that the main thing
+
+whatever happens must remain completely different
+
+these will have the different api's also 
+
+and the suggested options will be the 3 options 
+which are present in the main problem statement 
+
+so based on the schema of the ai feature which is there in the prompt ,
+we will integrate and make some tweaks in the current logic
+so how to do that tell me first then later we will create the prompt for codex
+
+first make some decisions
+
+
+starting frontend prompt: 
+
+# NAVigit — User Prompt History
+# Team Prompters | Wings Hackathon 2026
+# Exact messages sent during the building process
+# ============================================================
+
+
+# ============================================================
+# PHASE 1 — PROJECT UNDERSTANDING
+# ============================================================
+
+1. understand this PS and give me a short summary
+
+2. this is our designed architecture now analys this
+
+3. listen we have submitted this architecture which is a part 
+   of this competition, now I dont have to go out throught this 
+   and user another architecture. and anyways i m just doing 
+   frontend rest of all my teamets are going to work on backend 
+   and database so we are just going to focus on our part
+
+
+# ============================================================
+# PHASE 2 — FRONTEND SETUP
+# ============================================================
+
+4. Q: What tech are you using for frontend?
+   A: React
+
+   Q: What do you need help with first?
+   A: GitHub URL input form
+
+5. Q: How do you want to implement it?
+   A: Give me the Antigravity prompt
+
+6. nice but it jsut giving me a single file of HTML, dont u 
+   thing that all those CSS js and all are seperate and 
+   integrated in standard way
+
+7. Im going to use antigravity IDE
+   give me a prompt for design this same usging CSS, HTML
+   motive is we need to show them a standard structure of files
+   (Its a Compition)
+
+
+# ============================================================
+# PHASE 3 — CODE REVIEW & FIXES
+# ============================================================
+
+8. check out this (style.css uploaded)
+
+9. also check this html file (index.html uploaded)
+
+10. I have one problem is
+    HIs folder is empty and newly generated, i guess still our 
+    output is showing our expected output which is given in that PS
+
+11. perfect, now work on basis of our schema
+    lets refer same and work on that just for reminder we are 
+    just going to work on its frontend part okayy ??
+
+12. listen we have to we just working on ui so what u think 
+    what we have to do now Im getting confused
+
+13. now what Im saying I want a block diagram which is going to 
+    display on second pages after a results based on dependencies 
+    of that respected repos
+
+14. Q: How do you want to render the block diagram?
+    A: Canvas/SVG (draw it dynamically with JS)
+
+15. means what ever is dependency we will get from githubs files 
+    repo it will generate its block on spot
+    we are just doing its rough part
+    it will get checked after testing with whole folder 
+    (frontend + backend)
+
+
+# ============================================================
+# PHASE 4 — SPLINE 3D BACKGROUND
+# ============================================================
+
+16. can we use spline for add 3d animation or design to impress 
+    judges
+
+17. Q: How do you want to use Spline?
+    A: Design a custom 3D scene in Spline myself
+
+18. suggest me some 3d design which are free available on spline
+
+19. I want to use this in my code help me to do this
+    https://my.spline.design/particles-1iUsf6ScTotWRWvWshwjgI4P/
+
+20. give me a whole correct code
+
+21. can u see that mark of spline on that page
+    would u please help me to remove that
+
+22. give me a prompt
+
+
+# ============================================================
+# PHASE 5 — RESULTS PAGE & CHAT
+# ============================================================
+
+23. now when it complete its analyze and give us a output then 
+    we are thinking that we want here a option of chat with ai
+    then user can chat with ai and ask them a problem
+    my backend team is creating a chatbot which going to 
+    integrate with this u got it ??
+
+24. Q: Where should the chat appear on the results page?
+    A: Side panel that slides in
+
+    Q: What style should the chat UI be?
+    A: Matches the existing dark card style
+
+25. just give me a prompt which Im going to use it on antigravity
+
+26. we can do it later just remind me okay (ai chat session)
+
+27. now we can work on our ai chat bot button
+
+28. Q: How do you want to implement it?
+    A: Give me the Antigravity prompt
+
+29. remove that from page 2 (dependancy flow graph)
+    and after clicking that dependacy map it will open on page
+
+30. see the problem is, it is opening on a different page which 
+    is good. but the main thing is block diagram's starting point.
+    that it is not completely declared. the two starting nodes 
+    are not visible only the arrows are. so fix that please!
+
+
+# ============================================================
+# PHASE 6 — PROJECT REVIEW
+# ============================================================
+
+31. can we do one thing I will give u a zip file then u will 
+    get check ??  (GECA.zip uploaded)
+
+32. give me a prompt to fix it
+
+33. ookay done
+
+34. now what Im saying I want a block diagram which is going to 
+    display on second pages after a results based on dependencies 
+    of that respected repos
+
+35. perfect lets work on our PPT its max slides should be 7/8
+    now u have whole idea about this project and my solution so 
+    can help me to make a standard attractive PPT
+    u just direct generate ppt so we will work on it later
+    refer our ui to generate template.
+    first of all give me a preview material which is going to 
+    be on each slides
+
+36. generate PPT lets do it
+
+
+# ============================================================
+# PHASE 7 — PPT & PRESENTATION
+# ============================================================
+
+37. I have this ppt for referance, its just a rough PPT dont 
+    refer it fully keep roots our solution
+    put the name of this agent is "NAVigit"
+
+38. can u help me to add amination in this PPT
+
+39. give me a prompt
+
+40. can u generate ppt with this animations
+
+41. perfect, now give me a prompt to complete project till here
+
+42. give me a prompt for changing this code results.css
+
+43. just give me a prompt for exact solution (for GenSpark)
+
+44. now what Im saying I want a block diagram which is going to 
+    display on second pages after a results based on dependencies
+    of that respected repos
+    Q: How do you want to proceed?
+    A: Yes give me Antigravity prompt
+
+
+# ============================================================
+# PHASE 8 — SCHEMA & API INTEGRATION
+# ============================================================
+
+45. For now read this file its a schema of our project
+    let me correct and guide me refering this (_.txt uploaded)
+
+46. okay so entry point is different
+    but u know what we have to we just working on ui so what 
+    u think what we have to do now Im getting confused
+
+47. now we can work on our ai chat bot button
+    Q: How do you want to implement it?
+    A: Give me the Antigravity prompt
+
+48. perfect all good now we are doing great
+    now when it complete its analyze and give us a output then 
+    we are thinking that we want here a option of chat with ai
+    then user can chat with ai and ask them a problem
+    my backend team is creating a chatbot which going to 
+    integrate with this u got it ??
+    of this (referring to chat panel prompt)
+
+49. Here is the exact, perfectly structured prompt...
+    we have to do some changes according to this scheme for 
+    chat bot ai which we have use in page 2
+    read this schema carefully and do changes accordingly 
+    and give me a prompt for these changes
+
+
+# ============================================================
+# PHASE 9 — FINAL SUBMISSION
+# ============================================================
+
+50. perfect can we do one thing I will give u a zip file 
+    then u will get check (GECA.zip)
+
+51. okay done
+
+52. now what Im saying I want a block diagram which is going 
+    to display on second pages
+
+53. perfect , now give me a prompt to complete project till here
+
+54. I need your one more help
+    I want those prompts exactly same which i have given u to 
+    generate a full frontend
+    not talking about PPT or other
+    mark that I want to upload those prompts on prompt file 
+    which is going to submit
+
+55. not u created I want those prompt which I have given u 
+    while creating those prompts for antigravity
+    like this which I have given to u
+
+
+# ============================================================
+# END
+# Team Prompters | NAVigit | Wings Hackathon 2026
+# ============================================================

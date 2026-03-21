@@ -1,0 +1,1232 @@
+{
+  "m1_folder_explanation": {
+    "architecture_style": "Component-based Framework",
+    "folders": {
+      "<root>": "The project root, containing core project metadata (package.json), configuration files (.editorconfig, .eslintrc.yml), version control settings (.gitignore), documentation (Readme.md, History.md, LICENSE), and the main entry point (index.js) for the library.",
+      ".github": "Contains configuration files for GitHub-specific features, primarily Continuous Integration/Continuous Delivery (CI/CD) workflows via GitHub Actions (workflows folder) and automated dependency management (dependabot.yml).",
+      "examples": "Provides a collection of small, self-contained applications demonstrating various features and usage patterns of the core library, such as authentication, content negotiation, cookie handling, view rendering (ejs), error handling, routing, and static file serving. This helps users understand how to utilize the framework's components.",
+      "lib": "Houses the core source code and modules that constitute the library or framework itself. Files like application.js, express.js, request.js, response.js, and view.js indicate a structured approach to handling web application concerns, providing the fundamental building blocks for web development.",
+      "test": "Contains all unit, integration, and acceptance tests for the library. It includes tests for various components (e.g., Route, Router, application, request, response objects) and utility functions, along with supporting files like test fixtures and helper utilities."
+    }
+  },
+  "m2_entry_analysis": {
+    "entry_file": "index.js",
+    "execution_flow": [
+      "Step 1: The Node.js runtime loads and begins execution of the `index.js` file, typically when another module calls `require('express')`.",
+      "Step 2: The `'use strict';` directive is processed, enforcing strict mode for the current script's execution context.",
+      "Step 3: The `require('./lib/express')` function is invoked, instructing Node.js to load the module located at `./lib/express.js` relative to the current file.",
+      "Step 4: Node.js resolves the path to `lib/express.js`, loads its content, and executes it. This file contains the core implementation of the Express.js framework, including the function that creates an Express application.",
+      "Step 5: The value exported by `lib/express.js` (which is typically the main `express` function) is assigned to `module.exports` of the `index.js` file.",
+      "Step 6: The `express` function (or the value exported by `lib/express.js`) is returned to the module that initially called `require('express')`, making the Express framework available for use."
+    ]
+  },
+  "m3_dependency_graph": {
+    "examples/multi-router/controllers/api_v1.js": [],
+    "test/middleware.basic.js": [],
+    "test/app.route.js": [],
+    "test/Route.js": [
+      "lib/utils.js"
+    ],
+    "examples/multi-router/controllers/api_v2.js": [],
+    "test/app.routes.error.js": [],
+    "lib/utils.js": [],
+    "test/req.route.js": [],
+    "test/app.router.js": [
+      "lib/utils.js",
+      "test/support/utils.js"
+    ],
+    "test/Router.js": [
+      "lib/utils.js"
+    ],
+    "test/utils.js": [
+      "lib/utils.js"
+    ],
+    "lib/view.js": [],
+    "lib/response.js": [
+      "lib/utils.js",
+      "lib/utils.js",
+      "lib/utils.js"
+    ],
+    "examples/mvc/controllers/user-pet/index.js": [
+      "examples/mvc/db.js"
+    ],
+    "examples/multi-router/index.js": [
+      "examples/multi-router/controllers/api_v1.js",
+      "examples/multi-router/controllers/api_v2.js"
+    ],
+    "examples/mvc/controllers/pet/index.js": [
+      "examples/mvc/db.js"
+    ],
+    "lib/application.js": [
+      "lib/view.js",
+      "lib/utils.js",
+      "lib/utils.js",
+      "lib/utils.js",
+      "lib/utils.js"
+    ],
+    "lib/express.js": [
+      "lib/application.js",
+      "lib/request.js",
+      "lib/response.js"
+    ],
+    "examples/mvc/controllers/main/index.js": [],
+    "lib/request.js": [],
+    "examples/mvc/controllers/user/index.js": [
+      "examples/mvc/db.js"
+    ],
+    "test/acceptance/route-map.js": [
+      "examples/route-map/index.js"
+    ],
+    "examples/web-service/index.js": [],
+    "examples/route-middleware/index.js": [
+      "lib/express.js"
+    ],
+    "examples/route-separation/post.js": [],
+    "examples/route-separation/user.js": [],
+    "test/acceptance/multi-router.js": [
+      "examples/multi-router/index.js"
+    ],
+    "examples/route-separation/index.js": [
+      "examples/route-separation/site.js",
+      "examples/route-separation/post.js",
+      "examples/route-separation/user.js"
+    ],
+    "examples/route-separation/site.js": [],
+    "examples/route-map/index.js": [
+      "lib/express.js"
+    ],
+    "test/acceptance/route-separation.js": [
+      "examples/route-separation/index.js"
+    ],
+    "index.js": [
+      "lib/express.js"
+    ],
+    "test/app.head.js": [],
+    "test/acceptance/web-service.js": [
+      "examples/web-service/index.js"
+    ],
+    "test/app.locals.js": [],
+    "test/support/utils.js": [],
+    "test/app.all.js": [],
+    "test/app.engine.js": [],
+    "test/app.js": [],
+    "test/app.listen.js": [],
+    "test/app.options.js": [],
+    "test/config.js": [],
+    "test/app.request.js": [],
+    "test/exports.js": [],
+    "test/app.response.js": [],
+    "test/express.json.js": [],
+    "test/app.param.js": [],
+    "test/app.use.js": [],
+    "test/express.raw.js": [],
+    "test/app.render.js": [
+      "test/support/tmpl.js"
+    ],
+    "test/regression.js": [],
+    "test/req.acceptsCharsets.js": [],
+    "test/express.text.js": [],
+    "test/req.fresh.js": [],
+    "test/req.acceptsEncodings.js": [],
+    "test/req.accepts.js": [],
+    "test/req.acceptsLanguages.js": [],
+    "test/express.static.js": [
+      "test/support/utils.js"
+    ],
+    "test/express.urlencoded.js": [],
+    "test/req.baseUrl.js": [],
+    "test/req.get.js": [],
+    "test/req.is.js": [],
+    "test/req.ip.js": [],
+    "test/req.range.js": [],
+    "test/req.path.js": [],
+    "test/req.ips.js": [],
+    "test/req.query.js": [],
+    "test/req.host.js": [],
+    "test/req.protocol.js": [],
+    "test/req.hostname.js": [],
+    "test/req.secure.js": [],
+    "test/res.append.js": [],
+    "test/res.clearCookie.js": [],
+    "test/req.stale.js": [],
+    "test/req.signedCookies.js": [],
+    "test/req.xhr.js": [],
+    "test/req.subdomains.js": [],
+    "test/res.attachment.js": [],
+    "test/res.cookie.js": [],
+    "test/res.download.js": [
+      "test/support/utils.js"
+    ],
+    "test/res.format.js": [],
+    "test/res.json.js": [],
+    "test/res.links.js": [],
+    "test/res.redirect.js": [
+      "test/support/utils.js"
+    ],
+    "test/res.send.js": [
+      "lib/utils.js",
+      "test/support/utils.js",
+      "test/support/utils.js"
+    ],
+    "test/res.location.js": [],
+    "test/res.jsonp.js": [
+      "test/support/utils.js"
+    ],
+    "test/res.locals.js": [],
+    "test/res.get.js": [],
+    "test/res.render.js": [
+      "test/support/tmpl.js"
+    ],
+    "test/res.vary.js": [
+      "test/support/utils.js"
+    ],
+    "test/res.sendStatus.js": [],
+    "examples/content-negotiation/users.js": [
+      "examples/content-negotiation/db.js"
+    ],
+    "examples/content-negotiation/db.js": [],
+    "test/res.type.js": [],
+    "test/res.set.js": [],
+    "test/res.status.js": [],
+    "examples/auth/index.js": [],
+    "examples/content-negotiation/index.js": [
+      "examples/content-negotiation/db.js"
+    ],
+    "test/res.sendFile.js": [
+      "test/support/utils.js"
+    ],
+    "examples/markdown/index.js": [],
+    "examples/cookies/index.js": [],
+    "examples/error-pages/index.js": [],
+    "examples/hello-world/index.js": [],
+    "examples/mvc/index.js": [
+      "examples/mvc/lib/boot.js"
+    ],
+    "examples/downloads/index.js": [],
+    "examples/mvc/db.js": [],
+    "examples/error/index.js": [],
+    "examples/cookie-sessions/index.js": [],
+    "examples/ejs/index.js": [],
+    "examples/params/index.js": [],
+    "examples/session/index.js": [],
+    "examples/static-files/index.js": [],
+    "examples/static-files/public/js/app.js": [],
+    "examples/mvc/lib/boot.js": [],
+    "examples/session/redis.js": [],
+    "examples/resource/index.js": [],
+    "examples/online/index.js": [],
+    "examples/search/public/client.js": [],
+    "examples/search/index.js": [],
+    "test/acceptance/auth.js": [
+      "examples/auth/index.js"
+    ],
+    "test/acceptance/cookies.js": [
+      "examples/cookies/index.js",
+      "test/support/utils.js"
+    ],
+    "test/acceptance/cookie-sessions.js": [
+      "examples/cookie-sessions/index.js"
+    ],
+    "examples/view-locals/user.js": [],
+    "test/acceptance/downloads.js": [
+      "examples/downloads/index.js"
+    ],
+    "examples/view-constructor/github-view.js": [],
+    "examples/view-constructor/index.js": [
+      "examples/view-constructor/github-view.js"
+    ],
+    "examples/vhost/index.js": [],
+    "examples/view-locals/index.js": [
+      "examples/view-locals/user.js"
+    ],
+    "test/acceptance/content-negotiation.js": [
+      "examples/content-negotiation/index.js"
+    ],
+    "test/acceptance/ejs.js": [
+      "examples/ejs/index.js"
+    ],
+    "test/acceptance/resource.js": [
+      "examples/resource/index.js"
+    ],
+    "test/acceptance/params.js": [
+      "examples/params/index.js"
+    ],
+    "test/acceptance/mvc.js": [
+      "examples/mvc/index.js"
+    ],
+    "test/acceptance/error-pages.js": [
+      "examples/error-pages/index.js"
+    ],
+    "test/acceptance/error.js": [
+      "examples/error/index.js"
+    ],
+    "test/acceptance/vhost.js": [
+      "examples/vhost/index.js"
+    ],
+    "test/acceptance/hello-world.js": [
+      "examples/hello-world/index.js"
+    ],
+    "test/acceptance/markdown.js": [
+      "examples/markdown/index.js"
+    ],
+    "test/support/env.js": [],
+    "test/support/tmpl.js": []
+  },
+  "m3_nodes": [
+    {
+      "id": "examples/multi-router/controllers/api_v1.js",
+      "label": "api_v1.js",
+      "layer": "routing"
+    },
+    {
+      "id": "test/middleware.basic.js",
+      "label": "middleware.basic.js",
+      "layer": "middleware"
+    },
+    {
+      "id": "test/app.route.js",
+      "label": "app.route.js",
+      "layer": "routing"
+    },
+    {
+      "id": "test/Route.js",
+      "label": "Route.js",
+      "layer": "routing"
+    },
+    {
+      "id": "lib/utils.js",
+      "label": "utils.js",
+      "layer": "utility"
+    },
+    {
+      "id": "examples/multi-router/controllers/api_v2.js",
+      "label": "api_v2.js",
+      "layer": "routing"
+    },
+    {
+      "id": "test/app.routes.error.js",
+      "label": "app.routes.error.js",
+      "layer": "routing"
+    },
+    {
+      "id": "test/req.route.js",
+      "label": "req.route.js",
+      "layer": "routing"
+    },
+    {
+      "id": "test/app.router.js",
+      "label": "app.router.js",
+      "layer": "routing"
+    },
+    {
+      "id": "test/support/utils.js",
+      "label": "utils.js",
+      "layer": "utility"
+    },
+    {
+      "id": "test/Router.js",
+      "label": "Router.js",
+      "layer": "routing"
+    },
+    {
+      "id": "test/utils.js",
+      "label": "utils.js",
+      "layer": "utility"
+    },
+    {
+      "id": "lib/view.js",
+      "label": "view.js",
+      "layer": "UI"
+    },
+    {
+      "id": "lib/response.js",
+      "label": "response.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/mvc/controllers/user-pet/index.js",
+      "label": "index.js",
+      "layer": "business"
+    },
+    {
+      "id": "examples/mvc/db.js",
+      "label": "db.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/multi-router/index.js",
+      "label": "index.js",
+      "layer": "routing"
+    },
+    {
+      "id": "examples/mvc/controllers/pet/index.js",
+      "label": "index.js",
+      "layer": "business"
+    },
+    {
+      "id": "lib/application.js",
+      "label": "application.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "lib/express.js",
+      "label": "express.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "lib/request.js",
+      "label": "request.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/mvc/controllers/main/index.js",
+      "label": "index.js",
+      "layer": "business"
+    },
+    {
+      "id": "examples/mvc/controllers/user/index.js",
+      "label": "index.js",
+      "layer": "business"
+    },
+    {
+      "id": "test/acceptance/route-map.js",
+      "label": "route-map.js",
+      "layer": "routing"
+    },
+    {
+      "id": "examples/route-map/index.js",
+      "label": "index.js",
+      "layer": "routing"
+    },
+    {
+      "id": "examples/web-service/index.js",
+      "label": "index.js",
+      "layer": "logic"
+    },
+    {
+      "id": "examples/route-middleware/index.js",
+      "label": "index.js",
+      "layer": "routing"
+    },
+    {
+      "id": "examples/route-separation/post.js",
+      "label": "post.js",
+      "layer": "routing"
+    },
+    {
+      "id": "examples/route-separation/user.js",
+      "label": "user.js",
+      "layer": "routing"
+    },
+    {
+      "id": "test/acceptance/multi-router.js",
+      "label": "multi-router.js",
+      "layer": "routing"
+    },
+    {
+      "id": "examples/route-separation/index.js",
+      "label": "index.js",
+      "layer": "routing"
+    },
+    {
+      "id": "examples/route-separation/site.js",
+      "label": "site.js",
+      "layer": "routing"
+    },
+    {
+      "id": "test/acceptance/route-separation.js",
+      "label": "route-separation.js",
+      "layer": "routing"
+    },
+    {
+      "id": "index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "test/app.head.js",
+      "label": "app.head.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/acceptance/web-service.js",
+      "label": "web-service.js",
+      "layer": "logic"
+    },
+    {
+      "id": "test/app.locals.js",
+      "label": "app.locals.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/app.all.js",
+      "label": "app.all.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/app.engine.js",
+      "label": "app.engine.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/app.js",
+      "label": "app.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/app.listen.js",
+      "label": "app.listen.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/app.options.js",
+      "label": "app.options.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/config.js",
+      "label": "config.js",
+      "layer": "config"
+    },
+    {
+      "id": "test/app.request.js",
+      "label": "app.request.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/exports.js",
+      "label": "exports.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/app.response.js",
+      "label": "app.response.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/express.json.js",
+      "label": "express.json.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/app.param.js",
+      "label": "app.param.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/app.use.js",
+      "label": "app.use.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/express.raw.js",
+      "label": "express.raw.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/app.render.js",
+      "label": "app.render.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/support/tmpl.js",
+      "label": "tmpl.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/regression.js",
+      "label": "regression.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.acceptsCharsets.js",
+      "label": "req.acceptsCharsets.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/express.text.js",
+      "label": "express.text.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.fresh.js",
+      "label": "req.fresh.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.acceptsEncodings.js",
+      "label": "req.acceptsEncodings.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.accepts.js",
+      "label": "req.accepts.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.acceptsLanguages.js",
+      "label": "req.acceptsLanguages.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/express.static.js",
+      "label": "express.static.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/express.urlencoded.js",
+      "label": "express.urlencoded.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.baseUrl.js",
+      "label": "req.baseUrl.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.get.js",
+      "label": "req.get.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.is.js",
+      "label": "req.is.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.ip.js",
+      "label": "req.ip.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.range.js",
+      "label": "req.range.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.path.js",
+      "label": "req.path.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.ips.js",
+      "label": "req.ips.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.query.js",
+      "label": "req.query.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.host.js",
+      "label": "req.host.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.protocol.js",
+      "label": "req.protocol.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.hostname.js",
+      "label": "req.hostname.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.secure.js",
+      "label": "req.secure.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.append.js",
+      "label": "res.append.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.clearCookie.js",
+      "label": "res.clearCookie.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.stale.js",
+      "label": "req.stale.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.signedCookies.js",
+      "label": "req.signedCookies.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.xhr.js",
+      "label": "req.xhr.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/req.subdomains.js",
+      "label": "req.subdomains.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.attachment.js",
+      "label": "res.attachment.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.cookie.js",
+      "label": "res.cookie.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.download.js",
+      "label": "res.download.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.format.js",
+      "label": "res.format.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.json.js",
+      "label": "res.json.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.links.js",
+      "label": "res.links.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.redirect.js",
+      "label": "res.redirect.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.send.js",
+      "label": "res.send.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.location.js",
+      "label": "res.location.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.jsonp.js",
+      "label": "res.jsonp.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.locals.js",
+      "label": "res.locals.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.get.js",
+      "label": "res.get.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.render.js",
+      "label": "res.render.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.vary.js",
+      "label": "res.vary.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.sendStatus.js",
+      "label": "res.sendStatus.js",
+      "layer": "testing"
+    },
+    {
+      "id": "examples/content-negotiation/users.js",
+      "label": "users.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/content-negotiation/db.js",
+      "label": "db.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "test/res.type.js",
+      "label": "res.type.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.set.js",
+      "label": "res.set.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/res.status.js",
+      "label": "res.status.js",
+      "layer": "testing"
+    },
+    {
+      "id": "examples/auth/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/content-negotiation/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "test/res.sendFile.js",
+      "label": "res.sendFile.js",
+      "layer": "testing"
+    },
+    {
+      "id": "examples/markdown/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/cookies/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/error-pages/index.js",
+      "label": "index.js",
+      "layer": "UI"
+    },
+    {
+      "id": "examples/hello-world/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/mvc/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/mvc/lib/boot.js",
+      "label": "boot.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/downloads/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/error/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/cookie-sessions/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/ejs/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/params/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/session/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/static-files/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/static-files/public/js/app.js",
+      "label": "app.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/session/redis.js",
+      "label": "redis.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/resource/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/online/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/search/public/client.js",
+      "label": "client.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/search/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "test/acceptance/auth.js",
+      "label": "auth.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/acceptance/cookies.js",
+      "label": "cookies.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/acceptance/cookie-sessions.js",
+      "label": "cookie-sessions.js",
+      "layer": "testing"
+    },
+    {
+      "id": "examples/view-locals/user.js",
+      "label": "user.js",
+      "layer": "UI"
+    },
+    {
+      "id": "test/acceptance/downloads.js",
+      "label": "downloads.js",
+      "layer": "testing"
+    },
+    {
+      "id": "examples/view-constructor/github-view.js",
+      "label": "github-view.js",
+      "layer": "UI"
+    },
+    {
+      "id": "examples/view-constructor/index.js",
+      "label": "index.js",
+      "layer": "UI"
+    },
+    {
+      "id": "examples/vhost/index.js",
+      "label": "index.js",
+      "layer": "unknown"
+    },
+    {
+      "id": "examples/view-locals/index.js",
+      "label": "index.js",
+      "layer": "UI"
+    },
+    {
+      "id": "test/acceptance/content-negotiation.js",
+      "label": "content-negotiation.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/acceptance/ejs.js",
+      "label": "ejs.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/acceptance/resource.js",
+      "label": "resource.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/acceptance/params.js",
+      "label": "params.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/acceptance/mvc.js",
+      "label": "mvc.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/acceptance/error-pages.js",
+      "label": "error-pages.js",
+      "layer": "UI"
+    },
+    {
+      "id": "test/acceptance/error.js",
+      "label": "error.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/acceptance/vhost.js",
+      "label": "vhost.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/acceptance/hello-world.js",
+      "label": "hello-world.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/acceptance/markdown.js",
+      "label": "markdown.js",
+      "layer": "testing"
+    },
+    {
+      "id": "test/support/env.js",
+      "label": "env.js",
+      "layer": "testing"
+    }
+  ],
+  "m3_edges": [
+    {
+      "source": "test/Route.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "test/app.router.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "test/app.router.js",
+      "target": "test/support/utils.js"
+    },
+    {
+      "source": "test/Router.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "test/utils.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/response.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/response.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/response.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "examples/mvc/controllers/user-pet/index.js",
+      "target": "examples/mvc/db.js"
+    },
+    {
+      "source": "examples/multi-router/index.js",
+      "target": "examples/multi-router/controllers/api_v1.js"
+    },
+    {
+      "source": "examples/multi-router/index.js",
+      "target": "examples/multi-router/controllers/api_v2.js"
+    },
+    {
+      "source": "examples/mvc/controllers/pet/index.js",
+      "target": "examples/mvc/db.js"
+    },
+    {
+      "source": "lib/application.js",
+      "target": "lib/view.js"
+    },
+    {
+      "source": "lib/application.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/application.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/application.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/application.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "lib/express.js",
+      "target": "lib/application.js"
+    },
+    {
+      "source": "lib/express.js",
+      "target": "lib/request.js"
+    },
+    {
+      "source": "lib/express.js",
+      "target": "lib/response.js"
+    },
+    {
+      "source": "examples/mvc/controllers/user/index.js",
+      "target": "examples/mvc/db.js"
+    },
+    {
+      "source": "test/acceptance/route-map.js",
+      "target": "examples/route-map/index.js"
+    },
+    {
+      "source": "examples/route-middleware/index.js",
+      "target": "lib/express.js"
+    },
+    {
+      "source": "test/acceptance/multi-router.js",
+      "target": "examples/multi-router/index.js"
+    },
+    {
+      "source": "examples/route-separation/index.js",
+      "target": "examples/route-separation/site.js"
+    },
+    {
+      "source": "examples/route-separation/index.js",
+      "target": "examples/route-separation/post.js"
+    },
+    {
+      "source": "examples/route-separation/index.js",
+      "target": "examples/route-separation/user.js"
+    },
+    {
+      "source": "examples/route-map/index.js",
+      "target": "lib/express.js"
+    },
+    {
+      "source": "test/acceptance/route-separation.js",
+      "target": "examples/route-separation/index.js"
+    },
+    {
+      "source": "index.js",
+      "target": "lib/express.js"
+    },
+    {
+      "source": "test/acceptance/web-service.js",
+      "target": "examples/web-service/index.js"
+    },
+    {
+      "source": "test/app.render.js",
+      "target": "test/support/tmpl.js"
+    },
+    {
+      "source": "test/express.static.js",
+      "target": "test/support/utils.js"
+    },
+    {
+      "source": "test/res.download.js",
+      "target": "test/support/utils.js"
+    },
+    {
+      "source": "test/res.redirect.js",
+      "target": "test/support/utils.js"
+    },
+    {
+      "source": "test/res.send.js",
+      "target": "lib/utils.js"
+    },
+    {
+      "source": "test/res.send.js",
+      "target": "test/support/utils.js"
+    },
+    {
+      "source": "test/res.send.js",
+      "target": "test/support/utils.js"
+    },
+    {
+      "source": "test/res.jsonp.js",
+      "target": "test/support/utils.js"
+    },
+    {
+      "source": "test/res.render.js",
+      "target": "test/support/tmpl.js"
+    },
+    {
+      "source": "test/res.vary.js",
+      "target": "test/support/utils.js"
+    },
+    {
+      "source": "examples/content-negotiation/users.js",
+      "target": "examples/content-negotiation/db.js"
+    },
+    {
+      "source": "examples/content-negotiation/index.js",
+      "target": "examples/content-negotiation/db.js"
+    },
+    {
+      "source": "test/res.sendFile.js",
+      "target": "test/support/utils.js"
+    },
+    {
+      "source": "examples/mvc/index.js",
+      "target": "examples/mvc/lib/boot.js"
+    },
+    {
+      "source": "test/acceptance/auth.js",
+      "target": "examples/auth/index.js"
+    },
+    {
+      "source": "test/acceptance/cookies.js",
+      "target": "examples/cookies/index.js"
+    },
+    {
+      "source": "test/acceptance/cookies.js",
+      "target": "test/support/utils.js"
+    },
+    {
+      "source": "test/acceptance/cookie-sessions.js",
+      "target": "examples/cookie-sessions/index.js"
+    },
+    {
+      "source": "test/acceptance/downloads.js",
+      "target": "examples/downloads/index.js"
+    },
+    {
+      "source": "examples/view-constructor/index.js",
+      "target": "examples/view-constructor/github-view.js"
+    },
+    {
+      "source": "examples/view-locals/index.js",
+      "target": "examples/view-locals/user.js"
+    },
+    {
+      "source": "test/acceptance/content-negotiation.js",
+      "target": "examples/content-negotiation/index.js"
+    },
+    {
+      "source": "test/acceptance/ejs.js",
+      "target": "examples/ejs/index.js"
+    },
+    {
+      "source": "test/acceptance/resource.js",
+      "target": "examples/resource/index.js"
+    },
+    {
+      "source": "test/acceptance/params.js",
+      "target": "examples/params/index.js"
+    },
+    {
+      "source": "test/acceptance/mvc.js",
+      "target": "examples/mvc/index.js"
+    },
+    {
+      "source": "test/acceptance/error-pages.js",
+      "target": "examples/error-pages/index.js"
+    },
+    {
+      "source": "test/acceptance/error.js",
+      "target": "examples/error/index.js"
+    },
+    {
+      "source": "test/acceptance/vhost.js",
+      "target": "examples/vhost/index.js"
+    },
+    {
+      "source": "test/acceptance/hello-world.js",
+      "target": "examples/hello-world/index.js"
+    },
+    {
+      "source": "test/acceptance/markdown.js",
+      "target": "examples/markdown/index.js"
+    }
+  ]
+}
