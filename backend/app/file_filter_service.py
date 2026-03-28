@@ -53,6 +53,12 @@ def _score(path: str) -> int:
                 score += 3
                 break  # only award once per segment
 
+    if parts[0] in {"includes", "admin", "public"}:
+        score += 3
+
+    if normalised.endswith("index.php"):
+        score += 6
+
     if len(parts) <= 2:
         score += 2
 

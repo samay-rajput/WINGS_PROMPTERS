@@ -29,6 +29,10 @@ _PY_IMPORT = re.compile(
 )
 
 _JAVA_IMPORT = re.compile(r"import\s+([\w.]+);", re.MULTILINE)
+_PHP_IMPORT = re.compile(
+    r"""(?:include|include_once|require|require_once)\s*(?:\(\s*)?['"]([^'"]+)['"]""",
+    re.IGNORECASE | re.MULTILINE,
+)
 
 
 # ── 2. Layer inference & Scoring ──────────────────────────────────────────
@@ -141,6 +145,21 @@ def _resolve_java_import(raw: str, all_paths_set: set[str]) -> str | None:
             return candidate
     return None
 
+def _resolve_php_import(raw: str, file_dir: str, all_paths_set: set[str]) -> str | None:
+    normalized_raw = raw.replace("\\", "/").strip()
+    candidates: list[str] = []
+
+    if normalized_raw.startswith("."):
+        candidates.append(os.path.normpath(os.path.join(file_dir, normalized_raw)).replace("\\", "/"))
+    else:
+        candidates.append(normalized_raw)
+        candidates.append(os.path.normpath(os.path.join(file_dir, normalized_raw)).replace("\\", "/"))
+
+    for candidate in candidates:
+        if candidate in all_paths_set:
+            return candidate
+    return None
+
 def import_extractor(content: str, path: str, all_paths_set: set[str]) -> list[str]:
     """Extract and resolve imports for a given file."""
     ext = os.path.splitext(path)[1].lower()
@@ -159,6 +178,10 @@ def import_extractor(content: str, path: str, all_paths_set: set[str]) -> list[s
         for m in _JAVA_IMPORT.finditer(content):
             raw = m.group(1)
             deps.append(_resolve_java_import(raw, all_paths_set))
+    elif ext == ".php":
+        for m in _PHP_IMPORT.finditer(content):
+            raw = m.group(1)
+            deps.append(_resolve_php_import(raw, file_dir, all_paths_set))
             
     return [d for d in deps if d is not None and noise_filter(d)]
 

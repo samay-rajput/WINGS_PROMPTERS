@@ -205,7 +205,24 @@ function renderM2Preview(m2Data) {
   try {
     if (!m2Data || !m2Data.entry_file) throw new Error('Missing entry point data');
 
+    if (m2Data.entry_file === 'ENTRY_NOT_FOUND') {
+      container.innerHTML =
+        '<div class="card-empty-state">' +
+        '<p class="entry-dim">No entry file detected for this repository.</p>' +
+        '<p class="entry-dim">This often happens for unsupported or non-standard project structures.</p>' +
+        '</div>';
+      return;
+    }
+
     const steps = Array.isArray(m2Data.execution_flow) ? m2Data.execution_flow : [];
+    if (steps.length === 0) {
+      container.innerHTML =
+        '<div class="card-empty-state">' +
+        '<p class="entry-dim">Entry candidate: ' + escapeHtml(m2Data.entry_file) + '</p>' +
+        '<p class="entry-dim">Execution flow could not be generated for this repository.</p>' +
+        '</div>';
+      return;
+    }
     const previewSteps = steps.slice(0, M2_PREVIEW_LIMIT);
     const remaining = Math.max(0, steps.length - previewSteps.length);
 
@@ -276,8 +293,17 @@ function renderM3Preview(nodes, edges) {
   if (!container) return;
 
   try {
-    if (!Array.isArray(nodes) || !Array.isArray(edges) || nodes.length === 0) {
+    if (!Array.isArray(nodes) || !Array.isArray(edges)) {
       throw new Error('Missing dependency data');
+    }
+
+    if (nodes.length === 0) {
+      container.innerHTML =
+        '<div class="card-empty-state">' +
+        '<p class="entry-dim">No dependency graph could be built for this repository.</p>' +
+        '<p class="entry-dim">This usually means the repo type is only partially supported.</p>' +
+        '</div>';
+      return;
     }
 
     const normalizedNodes = nodes
@@ -500,7 +526,15 @@ function renderM2Full(m2Data) {
 
   try {
     if (!m2Data || !m2Data.entry_file) throw new Error('Missing entry data');
+    if (m2Data.entry_file === 'ENTRY_NOT_FOUND') {
+      container.innerHTML = '<p class="diagram-fallback">No entry file could be detected for this repository.</p>';
+      return;
+    }
     const steps = Array.isArray(m2Data.execution_flow) ? m2Data.execution_flow : [];
+    if (steps.length === 0) {
+      container.innerHTML = '<p class="diagram-fallback">Execution flow is not available for this repository.</p>';
+      return;
+    }
 
     const height = 120 + steps.length * 96;
     const boxX = 120;
@@ -614,8 +648,13 @@ function renderDependencyGraph(nodes, edges) {
   if (!container) return;
 
   try {
-    if (!Array.isArray(nodes) || !Array.isArray(edges) || nodes.length === 0) {
+    if (!Array.isArray(nodes) || !Array.isArray(edges)) {
       throw new Error('No graph data');
+    }
+
+    if (nodes.length === 0) {
+      container.innerHTML = '<p class="diagram-fallback">No dependency graph could be built for this repository.</p>';
+      return;
     }
 
     const nodeMap = new Map();

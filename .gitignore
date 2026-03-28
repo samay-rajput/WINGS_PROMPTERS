@@ -1,0 +1,31 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual environments
+.venv/
+venv/
+backend/.venv/
+rag-backend/.venv/
+
+# Environment files
+.env
+backend/.env
+rag-backend/.env
+
+# Build, cache, logs
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.log
+
+# Vector indexes and local generated data
+faiss_index/
+backend/faiss_index/
+rag-backend/faiss_index/
+
+# Editor and OS files
+.DS_Store
+Thumbs.db

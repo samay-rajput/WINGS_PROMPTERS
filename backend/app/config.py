@@ -34,6 +34,7 @@ ALLOWED_EXTENSIONS: set[str] = {
     ".js", ".ts", ".jsx", ".tsx",
     ".py",
     ".java",
+    ".php",
 }
 
 # ── Ignored directories ────────────────────────────────────────────────────

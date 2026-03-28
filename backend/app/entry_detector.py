@@ -31,6 +31,7 @@ _RUNTIME_EXT = {
     ".py",
     ".java",
     ".html",
+    ".php",
 }
 
 _EXCLUDED_EXT = {
@@ -59,6 +60,10 @@ _CONVENTIONAL = {
     "vite.config.js",
     "next.config.js",
     "webpack.config.js",
+
+    # PHP
+    "index.php",
+    "app.php",
 }
 
 # ───────────────── Repo-type detection ─────────────────
@@ -74,6 +79,9 @@ def _detect_repo_type(paths: List[str]) -> str:
 
     if any(p.endswith("server.js") or p.endswith("app.py") for p in lower):
         return "backend"
+
+    if any(p.endswith(".php") for p in lower):
+        return "php_web"
 
     return "generic"
 
@@ -159,6 +167,14 @@ def _score_candidate(
         "vite.config.js", "next.config.js", "webpack.config.js"
     }:
         score += 8
+
+    if repo_type == "php_web":
+        if base == "index.php":
+            score += 10
+        if norm == "public/index.php":
+            score += 8
+        if "/admin/" in f"/{norm}":
+            score -= 2
 
     # shallow depth preferred
     score += max(0, 5 - depth)

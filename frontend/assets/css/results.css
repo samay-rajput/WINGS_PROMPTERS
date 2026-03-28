@@ -299,6 +299,15 @@
   color: var(--text-dim);
 }
 
+.card-empty-state {
+  min-height: 150px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 4px;
+}
+
 .entry-file {
   color: var(--green);
   font-weight: 600;

@@ -18,6 +18,7 @@ from app.models import AnalyzeRequest, AnalyzeResponse, ChatRequest, ChatRespons
 from app.analysis_orchestrator import run_analysis
 from app.llm_provider import generate_with_fallback
 from app.github_service import (
+    GitHubServiceError,
     fetch_repo_metadata,
     fetch_repo_tree,
     parse_github_url,
@@ -208,6 +209,7 @@ def _normalize_analysis_payload(raw_result: Any) -> dict[str, Any]:
     return {
         "m1_folder_explanation": m1_raw,
         "m2_entry_analysis": _normalize_entry_analysis(payload, normalized_edges),
+        "m3_nodes": payload.get("m3_nodes", []),
         "m3_dependency_graph": normalized_edges,
         "m3_architecture_summary": str(summary) if summary is not None else "",
     }
@@ -248,6 +250,9 @@ async def analyze(request: AnalyzeRequest) -> AnalyzeResponse:
         logger.info("[API] dependency graph normalized")
         logger.info("[API] response sent")
         return AnalyzeResponse(**normalized_payload)
+    except GitHubServiceError as exc:
+        logger.warning("Analysis failed due to GitHub access issue: %s", exc.message)
+        return JSONResponse(status_code=exc.status_code, content={"error": exc.message})
     except Exception as exc:
         logger.exception("Analysis failed: %s", exc)
         return JSONResponse(status_code=500, content=_ERROR_PAYLOAD)
@@ -280,6 +285,9 @@ async def chat(request: ChatRequest) -> ChatResponse:
         reply = await generate_with_fallback(system_prompt, request.message)
         logger.info("[API] response sent")
         return ChatResponse(reply=reply)
+    except GitHubServiceError as exc:
+        logger.warning("Chat failed due to GitHub access issue: %s", exc.message)
+        return JSONResponse(status_code=exc.status_code, content={"error": exc.message})
     except Exception as exc:
         logger.error("Chat failed: %s", exc, exc_info=True)
         return JSONResponse(status_code=500, content=_ERROR_PAYLOAD)

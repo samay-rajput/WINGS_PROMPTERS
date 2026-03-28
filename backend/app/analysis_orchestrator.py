@@ -127,12 +127,15 @@ async def run_analysis(github_url: str) -> AnalyzeResponse:
     flow_entry_file = runtime_entry_file or entry_file
 
     # 7. Fetch file contents in parallel (no LLM, just GitHub API)
-    file_contents, entry_content_raw = await asyncio.gather(
-        _batch_fetch_contents(owner, repo, ranked_paths, concurrency=10),
-        fetch_file_content(owner, repo, flow_entry_file),
-    )
-
-    entry_content = entry_content_raw or ""
+    if flow_entry_file == "ENTRY_NOT_FOUND":
+        file_contents = await _batch_fetch_contents(owner, repo, ranked_paths, concurrency=10)
+        entry_content = ""
+    else:
+        file_contents, entry_content_raw = await asyncio.gather(
+            _batch_fetch_contents(owner, repo, ranked_paths, concurrency=10),
+            fetch_file_content(owner, repo, flow_entry_file),
+        )
+        entry_content = entry_content_raw or ""
 
     # 8. M1 — folder explanation (LLM call #1)
     m1_result = await explain_folder_structure(folder_signal)
@@ -198,7 +201,18 @@ async def run_analysis(github_url: str) -> AnalyzeResponse:
                     extra_ctx = fetched[:3000]
                     break
 
-    execution_flow = await explain_execution_flow(flow_entry_file, entry_content, extra_ctx)
+    if flow_entry_file == "ENTRY_NOT_FOUND":
+        execution_flow = [
+            "No clear runtime entry file could be detected for this repository.",
+            "Folder analysis may still be useful, but entry-flow analysis is limited for this codebase.",
+        ]
+    elif not entry_content.strip():
+        execution_flow = [
+            f"Detected entry candidate: {flow_entry_file}",
+            "The file contents could not be fetched from GitHub, so execution-flow analysis is limited.",
+        ]
+    else:
+        execution_flow = await explain_execution_flow(flow_entry_file, entry_content, extra_ctx)
 
     # 10. M3 — dependency graph (pure Python, no LLM)
     nodes, edges, summary = build_dependency_graph(file_contents, all_paths)
@@ -212,6 +226,7 @@ async def run_analysis(github_url: str) -> AnalyzeResponse:
             runtime_entry_file=runtime_entry_file,
             execution_flow=execution_flow,
         ),
+        m3_nodes=nodes,
         m3_dependency_graph=edges,
         m3_architecture_summary=summary,
     )

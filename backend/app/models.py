@@ -39,6 +39,7 @@ class GraphEdge(BaseModel):
 class AnalyzeResponse(BaseModel):
     m1_folder_explanation: dict[str, Any]
     m2_entry_analysis: EntryAnalysis
+    m3_nodes: list[GraphNode] = Field(default_factory=list)
     m3_dependency_graph: list[GraphEdge]
     m3_architecture_summary: str
 
