@@ -7,6 +7,16 @@ Run with:  uvicorn app.main:app --reload
 
 from __future__ import annotations
 
+# ── MUST be before all other imports — prevent TF from loading native DLLs ──
+# TF's C++ extensions conflict with FAISS on Windows/Anaconda.
+# These env vars tell HuggingFace/sentence-transformers to use PyTorch only.
+import os
+os.environ["TRANSFORMERS_NO_TF"] = "1"
+os.environ["USE_TF"] = "0"
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "3"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+# ─────────────────────────────────────────────────────────────────────────────
+
 import logging
 import sys
 
@@ -37,8 +47,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5500", "http://localhost:5500"],
-    allow_origin_regex=r"^https?://(localhost|127\.0\.0\.1)(:\d+)?$",
+    allow_origins=["*"],          # allow all origins during dev (frontend can run on any port)
     allow_methods=["*"],
     allow_headers=["*"],
 )

@@ -30,6 +30,12 @@ _PY_IMPORT = re.compile(
 
 _JAVA_IMPORT = re.compile(r"import\s+([\w.]+);", re.MULTILINE)
 
+# Go: import "pkg/path" or import alias "pkg/path"
+_GO_IMPORT = re.compile(r'import\s+(?:\w+\s+)?"([^"]+)"', re.MULTILINE)
+
+# C# using directive
+_CS_USING = re.compile(r"^\s*using\s+([\w.]+)\s*;", re.MULTILINE)
+
 
 # ── 2. Layer inference & Scoring ──────────────────────────────────────────
 
@@ -146,8 +152,8 @@ def import_extractor(content: str, path: str, all_paths_set: set[str]) -> list[s
     ext = os.path.splitext(path)[1].lower()
     file_dir = os.path.dirname(path).replace("\\", "/")
     deps: list[str | None] = []
-    
-    if ext in {".js", ".ts", ".jsx", ".tsx"}:
+
+    if ext in {".js", ".ts", ".jsx", ".tsx", ".mjs", ".cjs"}:
         for m in _JS_IMPORT.finditer(content):
             raw = m.group(1) or m.group(2)
             deps.append(_resolve_js_import(raw, file_dir, all_paths_set))
@@ -155,12 +161,27 @@ def import_extractor(content: str, path: str, all_paths_set: set[str]) -> list[s
         for m in _PY_IMPORT.finditer(content):
             raw = m.group(1) or m.group(2)
             deps.append(_resolve_py_import(raw, all_paths_set))
-    elif ext == ".java":
+    elif ext in {".java", ".kt", ".scala"}:
         for m in _JAVA_IMPORT.finditer(content):
             raw = m.group(1)
             deps.append(_resolve_java_import(raw, all_paths_set))
-            
+    elif ext == ".go":
+        for m in _GO_IMPORT.finditer(content):
+            raw = m.group(1)
+            # Go imports are package paths — map to file if it exists in the tree
+            as_path = raw.rstrip("/") + "/"
+            matched = next(
+                (p for p in all_paths_set if p.startswith(as_path) and p.endswith(".go")),
+                None,
+            )
+            deps.append(matched)
+    elif ext == ".cs":
+        for m in _CS_USING.finditer(content):
+            raw = m.group(1)
+            deps.append(_resolve_java_import(raw, all_paths_set))  # same dotted-path logic
+
     return [d for d in deps if d is not None and noise_filter(d)]
+
 
 
 # ── 5. Graph Pruning & Formatting ─────────────────────────────────────────

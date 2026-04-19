@@ -43,12 +43,3 @@ class AnalyzeResponse(BaseModel):
     m3_architecture_summary: str
 
 
-# ── Chat Support ───────────────────────────────────────────────────────────
-class ChatRequest(BaseModel):
-    message: str
-    repo_url: str
-
-
-class ChatResponse(BaseModel):
-    reply: str
-

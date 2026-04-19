@@ -27,15 +27,28 @@ logger = logging.getLogger(__name__)
 # ───────────────── Runtime-eligible extensions ─────────────────
 
 _RUNTIME_EXT = {
-    ".js", ".ts", ".jsx", ".tsx",
+    # Web / Node
+    ".js", ".ts", ".jsx", ".tsx", ".mjs",
+    # Python
     ".py",
-    ".java",
+    # JVM
+    ".java", ".kt", ".scala",
+    # Systems
+    ".c", ".cpp", ".cc", ".cxx", ".rs",
+    # C#/.NET
+    ".cs",
+    # Go
+    ".go",
+    # Dart / Flutter
+    ".dart",
+    # Web
     ".html",
 }
 
 _EXCLUDED_EXT = {
     ".md", ".yaml", ".yml", ".txt",
     ".css", ".scss", ".svg", ".png", ".jpg", ".jpeg", ".gif", ".ico",
+    ".json", ".toml", ".xml",
 }
 
 # ───────────────── Conventional starter basenames ─────────────────
@@ -48,8 +61,23 @@ _CONVENTIONAL = {
     # Python
     "main.py", "app.py", "run.py", "manage.py", "wsgi.py", "asgi.py",
 
-    # Java
-    "application.java",
+    # Java / Kotlin
+    "application.java", "main.kt", "application.kt",
+
+    # C / C++ / Systems
+    "main.c", "main.cpp", "main.cc",
+
+    # Rust
+    "main.rs",
+
+    # Go
+    "main.go",
+
+    # C# / .NET
+    "program.cs", "startup.cs",
+
+    # Dart / Flutter
+    "main.dart",
 
     # Frontend SPA
     "main.jsx", "main.tsx", "index.jsx", "index.tsx",
@@ -71,6 +99,30 @@ def _detect_repo_type(paths: List[str]) -> str:
 
     if any("vite.config" in p or "next.config" in p for p in lower):
         return "frontend"
+
+    # Go monorepo (Kubernetes, etc.)
+    if any(p.endswith("main.go") or p.endswith("go.mod") for p in lower):
+        return "go"
+
+    # Rust
+    if any(p.endswith("cargo.toml") for p in lower):
+        return "rust"
+
+    # C / C++ systems (Linux, LLVM)
+    if any(p.endswith("cmakelists.txt") or p.endswith("makefile") for p in lower):
+        return "c_cpp"
+
+    # Dart / Flutter
+    if any(p.endswith("pubspec.yaml") for p in lower):
+        return "dart"
+
+    # C# / .NET
+    if any(p.endswith(".csproj") or p.endswith(".sln") for p in lower):
+        return "dotnet"
+
+    # JVM (Spring Boot, etc.)
+    if any(p.endswith("pom.xml") or p.endswith("build.gradle") for p in lower):
+        return "jvm"
 
     if any(p.endswith("server.js") or p.endswith("app.py") for p in lower):
         return "backend"
@@ -158,6 +210,29 @@ def _score_candidate(
     if repo_type == "frontend" and base in {
         "vite.config.js", "next.config.js", "webpack.config.js"
     }:
+        score += 8
+
+    if repo_type == "go" and base == "main.go":
+        score += 8
+        # Prefer cmd/ subdirectory pattern used by Kubernetes, Go CLIs
+        if "/cmd/" in norm:
+            score += 4
+
+    if repo_type == "rust" and base == "main.rs":
+        score += 8
+        if "/src/" in norm:
+            score += 3
+
+    if repo_type == "c_cpp" and base in {"main.c", "main.cpp", "main.cc"}:
+        score += 8
+
+    if repo_type == "dart" and base == "main.dart":
+        score += 10
+
+    if repo_type == "dotnet" and base in {"program.cs", "startup.cs"}:
+        score += 8
+
+    if repo_type == "jvm" and base in {"application.java", "main.kt", "application.kt"}:
         score += 8
 
     # shallow depth preferred

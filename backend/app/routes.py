@@ -14,15 +14,9 @@ from typing import Any
 from fastapi import APIRouter
 from fastapi.responses import JSONResponse
 
-from app.models import AnalyzeRequest, AnalyzeResponse, ChatRequest, ChatResponse
+from app.models import AnalyzeRequest, AnalyzeResponse
 from app.analysis_orchestrator import run_analysis
-from app.llm_provider import generate_with_fallback
-from app.github_service import (
-    fetch_repo_metadata,
-    fetch_repo_tree,
-    parse_github_url,
-)
-from app.file_filter_service import filter_and_rank
+from app.github_service import parse_github_url
 
 logger = logging.getLogger(__name__)
 
@@ -253,33 +247,3 @@ async def analyze(request: AnalyzeRequest) -> AnalyzeResponse:
         return JSONResponse(status_code=500, content=_ERROR_PAYLOAD)
 
 
-@router.post("/chat", response_model=ChatResponse)
-async def chat(request: ChatRequest) -> ChatResponse:
-    logger.info("[API] /chat request received")
-    try:
-        owner, repo = _parse_repo_reference(request.repo_url)
-
-        # Load lightweight repository context
-        meta = await fetch_repo_metadata(owner, repo)
-        branch = meta.get("default_branch", "main")
-        tree = await fetch_repo_tree(owner, repo, branch)
-        blob_paths = [item["path"] for item in tree if item.get("type") == "blob"]
-        ranked_paths = filter_and_rank(tree)
-        context_paths = ranked_paths[:40] if ranked_paths else blob_paths[:40]
-        context_preview = "\n".join(context_paths) if context_paths else "(no repository files found)"
-
-        system_prompt = (
-            "You are a helpful software architecture assistant.\n"
-            f"Repository: {owner}/{repo} (branch: {branch}).\n"
-            f"Total files discovered: {len(blob_paths)}.\n"
-            "Answer the user's questions concerning the repository structure.\n"
-            "Use the lightweight, filtered file list below as context:\n"
-            f"```\n{context_preview}\n```"
-        )
-
-        reply = await generate_with_fallback(system_prompt, request.message)
-        logger.info("[API] response sent")
-        return ChatResponse(reply=reply)
-    except Exception as exc:
-        logger.error("Chat failed: %s", exc, exc_info=True)
-        return JSONResponse(status_code=500, content=_ERROR_PAYLOAD)

@@ -1,0 +1,11 @@
+# Local collaboration-only artifacts
+prompts.txt
+progress.md
+
+# Keep these local for this machine; collaborators will push their own copies
+frontend/
+rag-backend/
+
+# Runtime artifacts
+backend/faiss_index/
+backend/uvicorn_*.log

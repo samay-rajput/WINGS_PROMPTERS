@@ -10,35 +10,79 @@ load_dotenv()
 
 GITHUB_TOKEN: str = os.getenv("GITHUB_TOKEN", "")
 
-# LLM Providers
+# ── Main Analysis Pipeline LLM keys (M1 / M2 / M3 only) ────────────────────
 GEMINI_API_KEY_PRIMARY: str = (
     os.getenv("GEMINI_API_KEY_PRIMARY")
-    or os.getenv("GEMINI_API_KEY_RAG")
     or os.getenv("GEMINI_API_KEY", "")
 )
 GEMINI_API_KEY_SECONDARY: str = os.getenv("GEMINI_API_KEY_SECONDARY", "")
-GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "") or os.getenv("GROQ_API_KEY_RAG", "")
+# Strictly isolated from RAG pipeline — do NOT read GROQ_API_KEY_RAG here
+GROQ_API_KEY: str = os.getenv("GROQ_API_KEY", "")
 
 # ── Tunables ────────────────────────────────────────────────────────────────
-MAX_FILES_TO_PROCESS: int = 150          # cap after priority scoring
-GITHUB_REQUEST_TIMEOUT: float = 30.0     # seconds per GitHub API call
-LLM_REQUEST_TIMEOUT: float = 120.0       # seconds for tracking LLM timeouts
-MAX_FILE_SIZE_BYTES: int = 500_000       # skip files larger than ~500 KB
+MAX_FILES_TO_PROCESS: int = 200          # cap after priority scoring
+GITHUB_REQUEST_TIMEOUT: float = 30.0    # seconds per GitHub API call
+LLM_REQUEST_TIMEOUT: float = 120.0      # seconds for tracking LLM timeouts
+MAX_FILE_SIZE_BYTES: int = 500_000      # skip files larger than ~500 KB
 
 # ── LLM Configuration ──────────────────────────────────────────────────────
 GEMINI_MODEL: str = "gemini-2.5-flash"
 GROQ_MODEL: str = "llama-3.1-8b-instant"
 
-# ── Allowed extensions ──────────────────────────────────────────────────────
+# ── Allowed extensions — covers all benchmark languages ─────────────────────
 ALLOWED_EXTENSIONS: set[str] = {
-    ".js", ".ts", ".jsx", ".tsx",
+    # Web / Node
+    ".js", ".ts", ".jsx", ".tsx", ".mjs", ".cjs",
+    # Python
     ".py",
-    ".java",
+    # JVM
+    ".java", ".kt", ".scala", ".groovy",
+    # C / C++ / Systems
+    ".c", ".cpp", ".cc", ".cxx", ".h", ".hpp", ".hh",
+    # C# / .NET
+    ".cs",
+    # Go
+    ".go",
+    # Rust
+    ".rs",
+    # Dart / Flutter
+    ".dart",
+    # Ruby
+    ".rb",
+    # PHP
+    ".php",
+    # Swift
+    ".swift",
+    # Shell / Scripting
+    ".sh", ".bash", ".zsh", ".ps1", ".bat",
+    # Config / Build
+    ".yaml", ".yml", ".toml", ".json", ".xml",
+    ".cmake", ".bazel", ".bzl", ".gradle", ".mk",
+    # Docs  (limited — for entry detection context)
+    ".md",
 }
 
 # ── Ignored directories ────────────────────────────────────────────────────
 IGNORED_DIRS: set[str] = {
-    "node_modules", "dist", "build", ".git", ".venv",
-    "__pycache__", ".next", "out", ".tox", ".mypy_cache",
-    "vendor", "target", ".gradle",
+    # JS/TS
+    "node_modules", ".next", "dist", "build", "out", ".turbo",
+    # Python
+    "venv", ".venv", "env", "__pycache__", ".tox", ".mypy_cache",
+    ".pytest_cache", "*.egg-info",
+    # Java / JVM
+    "target", ".gradle", ".idea",
+    # Go
+    "vendor",
+    # C / C++ / Build systems
+    "cmake_files", "cmakefiles",   # case-insensitive handled below
+    # Rust
+    "target",                      # same name, already listed
+    # Large monorepo artifacts
+    "third_party", "third-party", "thirdparty",
+    "bazel-bin", "bazel-out", "bazel-testlogs", "bazel-genfiles",
+    ".cache", ".git", ".github", ".vscode", ".vs",
+    # Docs / assets
+    "docs", "documentation", "examples", "samples", "test", "tests",
+    "testdata", "fixture", "fixtures", "mocks", "__mocks__",
+    "benchmark", "benchmarks",
 }

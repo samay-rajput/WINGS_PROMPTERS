@@ -82,10 +82,16 @@ def index_repository(body: IndexRequest):
     try:
         stats = rag_service.index_repository(body.github_url)
     except ValueError as exc:
+        import logging
+        logging.getLogger(__name__).error("[RAG /index] ValueError: %s", exc)
         raise HTTPException(status_code=400, detail=str(exc))
     except PermissionError as exc:
+        import logging
+        logging.getLogger(__name__).error("[RAG /index] PermissionError: %s", exc)
         raise HTTPException(status_code=403, detail=str(exc))
     except Exception as exc:
+        import logging, traceback
+        logging.getLogger(__name__).error("[RAG /index] Unexpected error: %s\n%s", exc, traceback.format_exc())
         raise HTTPException(status_code=500, detail=f"Indexing failed: {exc}")
 
     return IndexResponse(status="success", **stats)

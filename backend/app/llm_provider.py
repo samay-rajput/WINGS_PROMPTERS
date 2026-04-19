@@ -76,11 +76,11 @@ class GeminiProviderBase(LLMProvider):
             return resp.content
         except Exception as e:
             err = str(e).lower()
-            if "quota" in err or "429" in err and "quota" in err:
+            if "quota" in err or "429" in err:
                 raise ProviderQuotaError(err)
-            if "429" in err:
+            if "rate" in err and "limit" in err:
                 raise ProviderRateLimitError(err)
-            if "timeout" in err:
+            if "timeout" in err or "timed out" in err:
                 raise ProviderTimeoutError(err)
             if "500" in err or "503" in err:
                 raise ProviderInternalError(err)
@@ -124,11 +124,11 @@ class GroqProvider(LLMProvider):
             return resp.content
         except Exception as e:
             err = str(e).lower()
-            if "quota" in err or "429" in err and "quota" in err:
+            if "quota" in err or "429" in err:
                 raise ProviderQuotaError(err)
-            if "429" in err:
+            if "rate" in err and "limit" in err:
                 raise ProviderRateLimitError(err)
-            if "timeout" in err:
+            if "timeout" in err or "timed out" in err:
                 raise ProviderTimeoutError(err)
             if "500" in err or "503" in err or "internal" in err:
                 raise ProviderInternalError(err)

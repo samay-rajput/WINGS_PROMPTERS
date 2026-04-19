@@ -5,7 +5,7 @@ Filters and priority-scores the flat file tree returned by GitHub.
 
 Scoring heuristic (per spec):
   +5  path starts with  src/
-  +3  path segment contains  controller / service / model / route / api
+  +3  path segment contains  controller / service / model / route / api / handler
   +2  shallow depth (≤ 2 segments)
   +2  inside backend-like folder (server, app, core, backend, lib)
 
@@ -22,14 +22,29 @@ from app.config import ALLOWED_EXTENSIONS, IGNORED_DIRS, MAX_FILES_TO_PROCESS
 
 logger = logging.getLogger(__name__)
 
-_ARCH_KEYWORDS = {"controller", "service", "model", "route", "api", "handler", "middleware", "util", "helper"}
-_BACKEND_FOLDERS = {"server", "app", "core", "backend", "lib", "src"}
+_ARCH_KEYWORDS = {
+    "controller", "service", "model", "route", "api", "handler",
+    "middleware", "util", "helper", "repository", "manager", "provider",
+    "factory", "resolver", "dispatcher", "registry",
+}
+_BACKEND_FOLDERS = {"server", "app", "core", "backend", "lib", "src", "cmd", "pkg", "internal"}
+
+# Lowercased ignored set for O(1) lookup
+_IGNORED_LOWER = {d.lower() for d in IGNORED_DIRS}
+# Prefixes for wildcard-style ignores (e.g. "bazel-" covers bazel-bin, bazel-out, etc.)
+_IGNORED_PREFIXES = ("bazel-", "cmake_", "cmakefiles")
 
 
 def _is_ignored(path: str) -> bool:
-    """Return True if any path segment is in the ignored set."""
+    """Return True if any path segment matches the ignored set (case-insensitive)."""
     parts = path.replace("\\", "/").split("/")
-    return any(p in IGNORED_DIRS for p in parts)
+    for p in parts:
+        pl = p.lower()
+        if pl in _IGNORED_LOWER:
+            return True
+        if any(pl.startswith(prefix) for prefix in _IGNORED_PREFIXES):
+            return True
+    return False
 
 
 def _has_allowed_ext(path: str) -> bool:
@@ -74,6 +89,6 @@ def filter_and_rank(tree: list[dict[str, Any]]) -> list[str]:
     logger.info("After extension / ignore filter: %d files", len(blobs))
 
     scored = sorted(blobs, key=_score, reverse=True)
-    top = scored[: MAX_FILES_TO_PROCESS]
+    top = scored[:MAX_FILES_TO_PROCESS]
     logger.info("Top %d files selected for analysis", len(top))
     return top

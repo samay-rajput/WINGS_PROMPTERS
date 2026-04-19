@@ -1,35 +1,50 @@
+"""
+embedding_service.py
+---------------------
+Provides the local sentence-transformer embedding model for the RAG pipeline.
+
+Model: all-MiniLM-L6-v2
+  - Size  : ~80 MB (downloaded once to ~/.cache/huggingface/)
+  - Speed : ~1000 sentences/sec on CPU
+  - Dims  : 384
+  - Zero API calls, zero rate limits, runs fully offline after first download.
+
+We force PyTorch-only mode (TRANSFORMERS_NO_TF=1) so HuggingFace never tries
+to load TensorFlow/Keras, which avoids the tf-keras compatibility error on
+machines that have TensorFlow installed.
+"""
+
 import os
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
 
-# Gemini embedding model identifier
-EMBEDDING_MODEL = "models/gemini-embedding-001"
+# Force PyTorch backend — must be set BEFORE any HuggingFace imports
+os.environ["TRANSFORMERS_NO_TF"] = "1"
+os.environ["USE_TF"] = "0"
+os.environ["TOKENIZERS_PARALLELISM"] = "false"  # suppresses tokenizers fork warning
+
+from langchain_huggingface import HuggingFaceEmbeddings
+
+# Model is loaded once at module import and reused for all requests.
+_EMBEDDING_MODEL_NAME = "all-MiniLM-L6-v2"
+_embeddings_instance: HuggingFaceEmbeddings | None = None
 
 
-def get_all_embeddings() -> list[GoogleGenerativeAIEmbeddings]:
+def get_embeddings() -> HuggingFaceEmbeddings:
     """
-    Initialise and return a list of GoogleGenerativeAIEmbeddings instances.
-    Reads GEMINI_API_KEY_RAG (or fallback GEMINI_API_KEY) from the environment,
-    allowing comma-separated multiple keys.
-    Automatically filters out dummy/placeholder keys starting with 'AIzaSy_KEY_'.
+    Return the shared HuggingFaceEmbeddings instance (lazy singleton).
+    First call loads the model from disk/cache (~80 MB, one-time download).
     """
-    api_key_str = os.getenv("GEMINI_API_KEY_RAG") or os.getenv("GEMINI_API_KEY", "")
-    # Split, strip, and ignore dummy placeholders
-    raw_keys = [k.strip() for k in api_key_str.split(",") if k.strip()]
-    
-    valid_keys = []
-    for k in raw_keys:
-        # Ignore obvious placeholders like AIzaSy_KEY_1
-        if "_KEY_" in k.upper():
-            continue
-        valid_keys.append(k)
-
-    if not valid_keys:
-        raise EnvironmentError(
-            "No valid GEMINI_API_KEY_RAG found. "
-            "Please check your .env file and ensure real keys are provided."
+    global _embeddings_instance
+    if _embeddings_instance is None:
+        print(f"[RAG] Loading local embedding model: {_EMBEDDING_MODEL_NAME} (PyTorch backend)...")
+        _embeddings_instance = HuggingFaceEmbeddings(
+            model_name=_EMBEDDING_MODEL_NAME,
+            model_kwargs={"device": "cpu"},
+            encode_kwargs={"normalize_embeddings": True},
         )
-        
-    return [
-        GoogleGenerativeAIEmbeddings(model=EMBEDDING_MODEL, google_api_key=key)
-        for key in valid_keys
-    ]
+        print("[RAG] Embedding model ready ✓")
+    return _embeddings_instance
+
+
+def get_all_embeddings() -> list[HuggingFaceEmbeddings]:
+    """Legacy alias — returns a single-element list for backward compatibility."""
+    return [get_embeddings()]

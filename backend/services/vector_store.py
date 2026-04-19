@@ -1,24 +1,24 @@
 """
 vector_store.py
-----------------
-Singleton in-memory FAISS vector store.
+---------------
+Singleton in-memory FAISS vector store backed by a local sentence-transformer model.
 
-One store exists per running process.  Calling `build()` replaces the
-previous store, allowing the same server instance to be re-indexed for a
-different repository without restarting.
+One store exists per running process. Calling `build()` replaces the previous
+store, allowing the same server instance to be re-indexed for a different
+repository without restarting.
+
+No threading or key rotation needed: the local model has no rate limits.
 """
 
 from __future__ import annotations
 
 import os
 import time
-import threading
 from typing import Optional
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 from langchain_core.documents import Document
 from langchain_community.vectorstores import FAISS
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_huggingface import HuggingFaceEmbeddings
 
 # ---------------------------------------------------------------------------
 # Module-level state (in-memory singleton)
@@ -27,96 +27,64 @@ from langchain_google_genai import GoogleGenerativeAIEmbeddings
 _store: Optional[FAISS] = None
 _stats: dict = {"files_indexed": 0, "chunks_indexed": 0}
 
-PERSIST_DIRECTORY = "faiss_index"
+
+def _is_truthy(value: str) -> bool:
+    return value.strip().lower() not in {"0", "false", "no", "off"}
 
 
-def _get_embedding_model() -> GoogleGenerativeAIEmbeddings:
-    """Helper to get a model instance for loading."""
-    from services.embedding_service import get_all_embeddings
-    return get_all_embeddings()[0]
+def _should_persist() -> bool:
+    # Enabled by default for continuity across restarts.
+    return _is_truthy(os.getenv("RAG_PERSIST_INDEX", "1"))
+
+
+def _get_persist_directory() -> str:
+    """
+    Keep persisted FAISS artifacts outside the project tree by default.
+
+    This avoids frontend auto-reload tools (for example VS Code Live Server)
+    resetting the UI when /rag/index writes index files.
+    """
+    configured = os.getenv("RAG_FAISS_DIR", "").strip()
+    if configured:
+        return os.path.normpath(configured)
+
+    return os.path.normpath(
+        os.path.join(os.path.expanduser("~"), ".navigit", "faiss_index")
+    )
 
 
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
 
-def build(documents: list[Document], embeddings_list: list[GoogleGenerativeAIEmbeddings]) -> None:
+
+def build(documents: list[Document], embeddings: HuggingFaceEmbeddings) -> None:
     """
     (Re)build the FAISS index from the provided documents.
-    Uses parallel threading across ALL provided API keys to maximize indexing speed.
+
+    Uses the local sentence-transformer model: no API calls, no rate limits,
+    no threading complexity needed.
     """
     global _store, _stats
 
     if not documents:
         raise ValueError("Cannot build vector store: no documents provided.")
 
-    # Reset store for fresh build
-    _store = None
-    
-    BATCH_SIZE = 20
-    batches = [documents[i:i + BATCH_SIZE] for i in range(0, len(documents), BATCH_SIZE)]
-    
-    print(f"[DEBUG] Starting Parallel Indexing for {len(documents)} chunks across {len(embeddings_list)} keys...")
+    print(f"[RAG] Building FAISS index for {len(documents)} chunks...")
     t_start = time.time()
-    
-    # We use a simple counter to distribute batches to keys
-    batch_results = [None] * len(batches)
-    
-    def process_batch(batch_idx: int):
-        batch = batches[batch_idx]
-        # Assign a key based on batch index (rotation)
-        key_idx = batch_idx % len(embeddings_list)
-        
-        retries = 3
-        while retries > 0:
-            try:
-                current_embedding = embeddings_list[key_idx]
-                return FAISS.from_documents(batch, current_embedding)
-            except Exception as e:
-                error_str = str(e).upper()
-                is_quota = "429" in error_str or "RESOURCE_EXHAUSTED" in error_str or "QUOTA" in error_str
-                
-                if is_quota:
-                    # Respect 60s cooldown or rotate keys
-                    print(f"[DEBUG] Key {key_idx+1} hit rate limit. Rotating...")
-                    key_idx = (key_idx + 1) % len(embeddings_list)
-                    time.sleep(2)
-                else:
-                    print(f"[DEBUG] Batch {batch_idx} failed: {e}")
-                    retries -= 1
-                    time.sleep(1)
-                
-                retries -= 1
-        return None
 
-    # Process all batches in parallel using a thread pool
-    # We limit workers based on number of keys to hit all of them at once
-    max_workers = max(len(embeddings_list), 4)
-    merge_lock = threading.Lock()
-    
-    with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_idx = {executor.submit(process_batch, idx): idx for idx in range(len(batches))}
-        
-        completed_count = 0
-        for future in as_completed(future_to_idx):
-            res = future.result()
-            if res:
-                with merge_lock:
-                    if _store is None:
-                        _store = res
-                    else:
-                        _store.merge_from(res)
-                
-                completed_count += 1
-                if completed_count % 5 == 0 or completed_count == len(batches):
-                    print(f"[DEBUG] Parallel Progress: {completed_count}/{len(batches)} batches indexed.")
+    _store = FAISS.from_documents(documents, embeddings)
 
-    # Save to disk for persistence across restarts
-    if _store:
-        print(f"[DEBUG] Saving index to disk: {PERSIST_DIRECTORY}")
-        _store.save_local(PERSIST_DIRECTORY)
+    elapsed = time.time() - t_start
+    print(f"[RAG] FAISS index built in {elapsed:.1f}s.")
 
-    print(f"[DEBUG] Parallel Indexing complete! Total time: {time.time() - t_start:.2f}s.")
+    if _should_persist():
+        persist_directory = _get_persist_directory()
+        os.makedirs(persist_directory, exist_ok=True)
+        _store.save_local(persist_directory)
+        print(f"[RAG] Index saved to: {persist_directory}")
+    else:
+        print("[RAG] Index persistence disabled (RAG_PERSIST_INDEX=0).")
 
     unique_files = {doc.metadata.get("file_path", "") for doc in documents}
     _stats = {
@@ -125,7 +93,7 @@ def build(documents: list[Document], embeddings_list: list[GoogleGenerativeAIEmb
     }
 
 
-def search(query: str, embeddings: GoogleGenerativeAIEmbeddings, k: int = 5) -> list[Document]:
+def search(query: str, embeddings: HuggingFaceEmbeddings, k: int = 20) -> list[Document]:
     """
     Embed *query* and return the top-k most similar Documents.
     Raises RuntimeError if no repository has been indexed yet.
@@ -135,8 +103,7 @@ def search(query: str, embeddings: GoogleGenerativeAIEmbeddings, k: int = 5) -> 
             "No repository has been indexed yet. "
             "Please call POST /rag/index first."
         )
-    results = _store.similarity_search(query, k=k)
-    return results
+    return _store.similarity_search(query, k=k)
 
 
 def get_stats() -> dict:
