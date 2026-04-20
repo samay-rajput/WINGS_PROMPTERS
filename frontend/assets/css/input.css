@@ -1,0 +1,229 @@
+/* ══════════════════════════════════════════════════════
+   INPUT.CSS — Input Page Styles
+   Hero section, URL input, analyze button, badge, tags
+══════════════════════════════════════════════════════ */
+
+/* ── PAGE LAYOUT ─────────────────────────────────── */
+#input-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+/* ── TEAM NAME ───────────────────────────────────── */
+.team-name {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 1.5rem;
+}
+
+/* ── HERO HEADING ────────────────────────────────── */
+.hero-heading {
+  font-family: var(--font-heading);
+  font-weight: 800;
+  font-size: clamp(2.8rem, 7vw, 5rem);
+  line-height: 1.08;
+  margin-bottom: 1.2rem;
+}
+
+.hero-heading .line-green {
+  color: var(--green);
+}
+
+.line-white {
+  color: #E2E8F0;
+}
+
+/* ── SUBTITLE ────────────────────────────────────── */
+.hero-subtitle {
+  font-family: var(--font-mono);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--text);
+  max-width: 500px;
+  line-height: 1.65;
+  margin-bottom: 1.8rem;
+  text-shadow: 0 1px 12px rgba(0, 0, 0, 0.6);
+  letter-spacing: 0.01em;
+}
+
+.folder-sep {
+  color: var(--text-dim);
+  margin: 0 10px;
+  opacity: 0.5;
+  font-weight: 400;
+}
+
+/* ── PILL BADGE ──────────────────────────────────── */
+.pill-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--green);
+  background: var(--green-dim);
+  border: 1px solid rgba(0, 230, 120, 0.25);
+  padding: 6px 18px;
+  border-radius: var(--radius-pill);
+  margin-bottom: 2.4rem;
+  box-shadow: 0 0 20px rgba(0, 230, 120, 0.12),
+              0 0 60px rgba(0, 230, 120, 0.06);
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+/* ── INPUT GROUP ─────────────────────────────────── */
+.input-group {
+  width: 100%;
+  max-width: 540px;
+  margin-bottom: 0.5rem;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 4px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-wrapper:focus-within {
+  border-color: var(--green-glow);
+  box-shadow: 0 0 0 3px rgba(0, 230, 120, 0.08);
+}
+
+.input-wrapper.error {
+  border-color: var(--red);
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12);
+}
+
+/* github icon */
+.input-icon {
+  flex-shrink: 0;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-dim);
+}
+.input-icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* text input */
+#repo-url {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  padding: 14px 8px 14px 0;
+}
+#repo-url::placeholder {
+  color: var(--text-dim);
+  opacity: 0.6;
+}
+
+/* error message */
+.error-msg {
+  color: var(--red);
+  font-size: 0.75rem;
+  margin-top: 8px;
+  min-height: 18px;
+  text-align: left;
+  padding-left: 4px;
+  transition: opacity 0.25s;
+}
+
+/* ── ANALYZE BUTTON ──────────────────────────────── */
+.btn-analyze {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  max-width: 540px;
+  padding: 16px 28px;
+  margin-top: 0.7rem;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--bg);
+  background: var(--green);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.3s, background 0.2s;
+  box-shadow: var(--shadow-green);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-analyze:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-green-lg);
+}
+
+.btn-analyze:active {
+  transform: translateY(0);
+}
+
+.btn-analyze:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ── FEATURE TAGS ────────────────────────────────── */
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 1.8rem;
+}
+
+.tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: rgba(255, 255, 255, 0.80);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 7px 16px;
+  border-radius: var(--radius-pill);
+  transition: border-color 0.3s;
+}
+
+.tag:hover {
+  border-color: var(--border-hover);
+}
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width: 480px) {
+  .hero-heading {
+    font-size: 2.4rem;
+  }
+
+  .btn-analyze {
+    padding: 14px 20px;
+    font-size: 0.9rem;
+  }
+}
