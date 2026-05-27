@@ -1,8 +1,7 @@
-# Local collaboration-only artifacts
+# Local artifacts
 prompts.txt
 progress.md
 
-# Keep these local for this machine; collaborators will push their own copies
 frontend/
 rag-backend/
 
