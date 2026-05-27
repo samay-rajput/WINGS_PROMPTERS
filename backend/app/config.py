@@ -62,6 +62,28 @@ ALLOWED_EXTENSIONS: set[str] = {
     ".md",
 }
 
+## most of the extenstion present here. 
+
+### additional: Perl → .pl, .pm
+
+# Haskell → .hs
+
+# Lua → .lua
+
+# Objective-C → .m, .mm
+
+# R → .R, .r
+
+# MATLAB / Octave → .m
+
+# SQL → .sql
+
+# COBOL → .cbl, .cob
+
+# Fortran → .f, .f90, .f95
+
+# Ada → .ada, .adb, .ads
+
 # ── Ignored directories ────────────────────────────────────────────────────
 IGNORED_DIRS: set[str] = {
     # JS/TS

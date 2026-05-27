@@ -213,5 +213,5 @@ async def run_analysis(github_url: str) -> AnalyzeResponse:
             execution_flow=execution_flow,
         ),
         m3_dependency_graph=edges,
-        m3_architecture_summary=summary,
+        m3_architecture_summary=summary, 
     )
